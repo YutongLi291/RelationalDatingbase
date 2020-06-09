@@ -25,7 +25,7 @@ session_start();
 		<form id="signupform" onsubmit="" action="signup_check.php" method="post">
 			<p id="signuptitle"> SIGN UP </p><br>
 			<p> All fields are required </p>
-			<label>Username</label><br>
+			<label>Email</label><br>
 		    <input name="username" type="email" placeholder="Email address" ><br>
 		    <label>First Name</label><br>
 		    <input name="firstname" type="text" placeholder="First name" ><br>
@@ -39,7 +39,7 @@ session_start();
 		    <!-- MORE ABOUT YOU -->
 
 		    <h3> MORE ABOUT YOU </h3>
-		    <label>Nick name</label><br>
+		    <label>Nickname</label><br>
 		    <input name="nickname" type="text" placeholder="Nickname" ><br>
 		    <label>Age</label><br>
 		    <input name="age" type="number" placeholder="Age"  min="0" max="100"><br>

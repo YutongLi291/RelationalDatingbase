@@ -33,7 +33,7 @@ session_start();
 				
 				<form id="signinform" onsubmit="" action="signin_check.php" method="post">
 					<p id="signintitle"> SIGN IN </p><br>
-					<label>Username</label><br>
+					<label>Email</label><br>
 				    <input name="username" type="text" placeholder="Email address">
 				    <br>
 				    <label>Password</label><br>
@@ -43,9 +43,9 @@ session_start();
 				    <button type="submit" name="signinbutton" value="submit" id="signinbutton"> SIGN IN</button>
 				    <br><br>
 				    <?php
-		                if(isset($_SESSION["error"])){
+		                if(isset($_GET["msg"]) && $_GET["msg"] == 'error'){
 		                    $error = $_SESSION["error"];
-		                    echo "<span>$error</span>";
+		                    echo "<script type='text/javascript'>alert('Wrong Email/Password!');</script>";
 		                }
 		            ?>  
 		            <br><br><br>

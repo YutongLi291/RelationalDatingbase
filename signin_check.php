@@ -22,7 +22,7 @@ if (mysqli_num_rows($result) == 1) {
 	header("Location: homefeed.php");
 } else {
 	$_SESSION["error"] = $error;
-    header("location: signin.php");
+    header("location: signin.php?msg=error");
 }
 
 ?>
