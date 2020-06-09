@@ -8,8 +8,12 @@ session_start();
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <title>SIGN IN</title>
-		<link rel="stylesheet" href = "styles.css">
+		<link rel="stylesheet" href="styles.css">
 		<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+		<style type="text/css">
+			nav{width: 100vw;margin:0;padding:15px;height:55px;position:fixed;top:0;left: 0;background:#EA6557;color: white;}
+			nav p{position: absolute;left:7%;color: #fff;font-size: 14px;font-weight: 600;letter-spacing: 3px;margin-top: 20px;}
+		</style>
 	</head>
 	<body>
 
@@ -19,26 +23,13 @@ session_start();
 		$sql = "SELECT * from users";
 		$result = $conn->query($sql);
 
-		// if ($result->num_rows > 0) {
-		// 	echo "<table>
-		// 	<tr>
-		// 	<th class='border-class'>First Name</th>
-		// 	<th class='border-class'>Password</th>
-		// 	</tr>";// output data of each row
-
-		// 	while($row = 
-		// 	$result->fetch_assoc()) { 
-		// 		echo "<tr><td class='border-class'>".$row["firstName"]."</td>
-		// 		<td class='border-class'>".$row["password"]."</td></tr>";}echo "</table>";} else {echo "0 results";
-		// 	}
-
-		// 	CloseCon($conn);
 		?>
-
+		<nav> 
+			<p> RELATIONAL DATINGBASE</p>
+		</nav>
 		<div id="signinpage">
 			<div id="signincover">
 				<br>
-				<h1> Relational-Datingbase</h1>
 				
 				<form id="signinform" onsubmit="" action="signin_check.php" method="post">
 					<p id="signintitle"> SIGN IN </p><br>

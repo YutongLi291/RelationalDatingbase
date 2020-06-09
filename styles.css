@@ -1,3 +1,4 @@
+
 html, body{
 	margin:0;
 	padding:0;
@@ -5,7 +6,7 @@ html, body{
 	font-family: 'Raleway', sans-serif;
 }
 
-input, form, label, a, h1, h2, h3, h4, h5, button{
+input, form, label, a, h1, h2, h3, h4, h5, button, select, ul, nav, li{
 	font-family: 'Raleway', sans-serif;
 }
 
@@ -14,7 +15,6 @@ h1 {
     text-align: center;
     font-weight: 500;
 }
-
 
 /* ========================
 		SIGN IN PAGE
@@ -54,7 +54,7 @@ h1 {
 	padding: 20px 35px 40px 35px;
 	width:500px;
 	border-radius: 8px;
-	margin-top:30px;
+	margin-top:140px;
 }
 
 #signinform input{
@@ -85,3 +85,4 @@ h1 {
 	color: #EA6557;
 	text-decoration: underline;
 }
+
