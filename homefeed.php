@@ -8,51 +8,51 @@
 	<link rel="stylesheet" href = "styles.css">
 </head>
 <body>
-<h1>Your Feed</h1>	
+<h1>Your Feed</h1>
 
 
-	
+
 </body>
 </html>
 <?php
 	include 'connect.php';
-	
+
 	/// NEED TO KNOW WHO IS LOGGED IN
-	
-	
+
+
 	if (!isset($_SESSION['userEmail'])) {
 		session_start();
 		setCurrUser("bbbb@hotmail.com");
-	} 
+	}
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
-	
+
 	echo "You are logged in as ".$_SESSION['userEmail']."";
-	
+
 	load_feed();
 ?>
 <?php
-	
+
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
 	}
-	
+
 	function load_feed() {
-		
+
 		$conn = OpenCon();
 		$currUser = $_SESSION['userEmail'];
-		
+
 		// get name of matched users
-		
-		
-		$sql = "SELECT * from textposts,users where userEmail IN (SELECT secondUser as matches FROM usermatchescontains 
+
+
+		$sql = "SELECT * from textposts,users where userEmail IN (SELECT secondUser as matches FROM usermatchescontains
 		WHERE firstUser = '$currUser'
-		UNION SELECT firstUser FROM usermatchescontains 
+		UNION SELECT firstUser FROM usermatchescontains
 		WHERE secondUser = '$currUser'
 		UNION  SELECT '$currUser')
 		AND users.email = textposts.userEmail order by dateTime DESC";
-		
+
 		$result = $conn->query($sql);
-		
+
 		if ($result->num_rows > 0) {
 			echo "<table><tr><th class='border-class'>Post Feed</th></tr>
 			<tr><th class='border-class'>User</th>
@@ -61,8 +61,8 @@
 			<th class='border-class'>Content</th>
 			<th class='border-class'>Mood</th>
 			</tr>"; // output data of each row
-			while($row = 
-			$result->fetch_assoc()) { 
+			while($row =
+			$result->fetch_assoc()) {
 				if ($row["userEmail"] == $currUser) {
 					$sender = "You";
 					} else {
@@ -70,19 +70,19 @@
 				}
 				echo "<tr><td class='border-class'>".$sender. "		"."</td>
 				<td class='border-class'>".$row[userEmail]."		"."</td>
-				<td class='border-class'>".$row["dateTime"]."		"."</td><td 
-				class='border-class'>".$row["content"]."		"."</td><td 
+				<td class='border-class'>".$row["dateTime"]."		"."</td><td
+				class='border-class'>".$row["content"]."		"."</td><td
 				class='border-class'>".$row["textMood"]."</td></tr>";
 			}
 			echo "</table>";
 		} else {echo "\n No posts yet... say hi :)";}
 		CloseCon($conn);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 ?>
 
 
@@ -91,5 +91,3 @@
 	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
     <input type="submit" name="send" onClick>
 </form>
-
-
