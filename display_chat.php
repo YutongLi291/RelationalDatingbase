@@ -2,7 +2,7 @@
     include 'connect.php';
     include "save_message.php";
 
-    if (!isset($_SESSION['userEmail'])) {
+    if (!isset($_SESSION['username'])) {
         session_start();
         setCurrCID(5);
         setCurrUser("bbbbra@hotmail.com");
@@ -15,7 +15,7 @@
         send();
         unset($_POST['text']);
     }
-    echo "You are logged in as ".$_SESSION['userEmail']." in conversation cID ".$_SESSION['cID'];
+    echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
 
     start_chat();
 ?>
@@ -25,13 +25,13 @@
         $_SESSION['cID'] = $currCID;
     }
     function setCurrUser($currUser) {
-        $_SESSION['userEmail'] = $currUser;
+        $_SESSION['username'] = $currUser;
     }
 
     function start_chat() {
     
         $conn = OpenCon();
-        $currUser = $_SESSION['userEmail'];
+        $currUser = $_SESSION['username'];
         $currCID = $_SESSION['cID'];
     
         // get name of other user
@@ -55,7 +55,7 @@
         }
     
         $sql = "SELECT * from hasusermessages where cID=$currCID order by timeSent";
-        //  where userEmail=$currUser and cId=$currCID order by timeSent
+        //  where username=$currUser and cId=$currCID order by timeSent
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
