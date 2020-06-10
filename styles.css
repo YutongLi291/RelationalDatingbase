@@ -1,4 +1,88 @@
-h1 {
-    color: blue;
-    text-align: center;
+
+html, body{
+	margin:0;
+	padding:0;
+	width: 100%;
+	font-family: 'Raleway', sans-serif;
 }
+
+input, form, label, a, h1, h2, h3, h4, h5, button, select, ul, nav, li{
+	font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+    color: #EA6557;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ========================
+		SIGN IN PAGE
+=========================== */
+
+#signinpage{
+	width: 100vw;
+	height: 100vh;
+	background-image: url('https://www.foreigngirlfriend.com/dating-blog/wp-content/uploads/foreigngirlfriend-com/sites/4/Couple-dating-and-flirting.jpg');
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-size: cover;
+	margin:0;
+	padding: 0;
+}
+
+#signincover{
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255,255,255,0.4);
+}
+
+#signintitle{
+	color: #EA6557;
+	text-align: center;
+	font-size: 27px;
+	font-weight: 600;
+	letter-spacing: 2px;
+}
+
+#signinform{
+	text-align: left;
+	position:absolute;
+	left:50%;
+	transform: translateX(-50%);
+	background: #fff;
+	padding: 20px 35px 40px 35px;
+	width:500px;
+	border-radius: 8px;
+	margin-top:140px;
+}
+
+#signinform input{
+	margin: 10px 0 15px 0;
+	border:none;
+	background: #dddddd;
+	border-radius: 5px;
+	width:300px;
+	height: 20px;
+	padding: 10px;
+}
+
+#signinbutton{
+	background: #EA6557;
+	color: #fff;
+	width: 100%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 8px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+}
+
+#signinsignup{
+	font-weight: 600;
+	color: #EA6557;
+	text-decoration: underline;
+}
+
