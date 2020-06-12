@@ -1,22 +1,118 @@
-<!DOCTYPE html>
+
+
 <html lang="en">
 	<head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>SIGN IN</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Home Feed</title>
 		<link rel="stylesheet" href = "styles.css">
-		<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 	</head>
 	<body>
-
-		<?php
-			include 'connect.php';
-			$conn = OpenCon();
-			$sql = "SELECT * from users";
-			$result = $conn->query($sql);
-		?>
-
-		<h1> THIS IS HOMEFEED </h1>
+		<h1>Your Feed</h1>
+		
+		
 		
 	</body>
 </html>
+<?php
+	include 'connect.php';
+	include "save_post.php";
+	/// NEED TO KNOW WHO IS LOGGED IN
+	
+	
+	if (!isset($_SESSION['userEmail'])) {
+		session_start();
+		setCurrUser("bbbb@hotmail.com");
+	}
+	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+	if (isset($_POST['text'])) {
+        post();
+        unset($_POST['text']);
+    }
+	echo "You are logged in as ".$_SESSION['userEmail']."";
+	
+	load_feed();
+?>
+<?php
+	
+	function setCurrUser($currUser) {
+		$_SESSION['userEmail'] = $currUser;
+	}
+	
+	function load_feed() {
+		
+		$conn = OpenCon();
+		$currUser = $_SESSION['userEmail'];
+		
+		// get name of matched users
+		
+		
+		$sql = "SELECT * from textposts,users, location where userEmail IN (SELECT secondUser as matches FROM usermatchescontains
+		WHERE firstUser = '$currUser'
+		UNION SELECT firstUser FROM usermatchescontains
+		WHERE secondUser = '$currUser'
+		UNION  SELECT '$currUser')
+		AND users.email = textposts.userEmail AND textposts.location = location.locID order by dateTime DESC";
+		
+		$result = $conn->query($sql);
+		
+		if ($result->num_rows > 0) {
+			echo "<table><tr><th class='border-class'>Post Feed</th></tr>
+			<tr><th class='border-class'>User</th>
+			<th class='border-class'>User Email</th>
+			<th class='border-class'>Time Posted</th>
+			<th class='border-class'>Location</th>
+			<th class='border-class'>Content</th>
+			<th class='border-class'>Mood</th>
+			</tr>"; // output data of each row
+			while($row =
+			$result->fetch_assoc()) {
+				if ($row["userEmail"] == $currUser) {
+					$sender = "You";
+					} else {
+					$sender = $row["firstName"]. " ". $row["lastName"] ;
+				}
+				echo "<tr><td class='border-class'>".$sender."</td>
+				<td class='border-class'>".$row["userEmail"]."</td>
+				<td class='border-class'>".$row["dateTime"]."</td><td
+				class='border-class'>".$row["city"].", ". $row["province"]."</td><td
+				class='border-class'>".$row["content"]."</td><td
+				class='border-class'>".$row["textMood"]."</td></tr>";
+			}
+			echo "</table>";
+		} else {echo "\n No posts yet... say hi :)";}
+		CloseCon($conn);
+	}
+	///TODO: REACT TO POSTS
+	///SEPARATE BETWEEN TEXT AND PHOTO POSTS WHEN POSTING
+	
+	///POST ID IS NEGATIVE if Picture
+	///Post ID IS POSITIVE IF TEXT
+	
+	
+	
+?>
+
+
+<form method="POST" onAction="homefeed.php">
+    Type Here: <input type="text" name="text" size="50" placeholder="Type status here">
+	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
+	City: <input type="text" name="city" size="15" placeholder="Vancouver">
+	<select id="province" name="province" >
+				<option value="" disabled selected>Select your option</option>
+			    <option value="AB">AB</option>
+			    <option value="BC">BC</option>
+			    <option value="MB">MB</option>
+			    <option value="NB">NB</option>
+			    <option value="NL">NL</option>
+				<option value="NS">NS</option>
+			    <option value="ON">ON</option>
+			    <option value="PE">PE</option>
+			    <option value="QC">QC</option>
+			    <option value="SK">SK</option>
+				<option value="NT">NT</option>
+			    <option value="NU">NU</option>
+			    <option value="YT">YT</option>   
+			</select>
+    <input type="submit" name="post" onClick>
+</form>
