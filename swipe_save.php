@@ -49,16 +49,20 @@ function makeMatch() {
         $date = $row['CURDATE()'];
 
         // make new conversation
+        // select maximum cID
         $sql = "SELECT max(cID) from conversations";
         $newCID = 1;
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             $newCID = $row['max(cID)'] + 1;
         }
+        // insert new conversation
         $sql = "INSERT INTO conversations(cID) values ($newCID)";
+        $conn->query($sql);
 
-        // make match
-        $sql = "INSERT INTO usermatchescontains (date, firstUser, secondUser, cID) VALUE ('$date', '$target', '$currUser', $newCID";
+        // make match, inserting into usermatches contains
+        $sql = "INSERT INTO usermatchescontains (date, firstUser, secondUser, cID) VALUE ('$date', '$target', '$currUser', $newCID)";
+        $conn->query($sql);
 
         echo "MATCH MADE!";
     }
