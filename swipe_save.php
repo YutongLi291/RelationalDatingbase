@@ -37,6 +37,7 @@ function makeMatch() {
     $sql = 
     "INSERT into swipes (sID, swiper, swipee) values ($next_sID, '$currUser', '$target')";
     $conn->query($sql);
+    $_SESSION["swipeMadeWith"]=$target;
         
     // check if the target has swiped currUser
     $sql = "SELECT * from swipes where swiper='$target' and swipee='$currUser'";
@@ -64,13 +65,12 @@ function makeMatch() {
         $sql = "INSERT INTO usermatchescontains (date, firstUser, secondUser, cID) VALUE ('$date', '$target', '$currUser', $newCID)";
         $conn->query($sql);
 
+        $_SESSION["matchMadeWith"]=$target;
         echo "MATCH MADE!";
     }
 }
 
 function removeMatch() {
-    // removes this user without additional action
-    // random goes around comes OURND 
     echo "nope.";
 }
 

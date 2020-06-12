@@ -78,6 +78,17 @@
     }  
     ?>
 
+    <h1>
+        <?php 
+        if (isset($_SESSION["matchMadeWith"])) {
+            echo "Match made with ".$_SESSION["matchMadeWith"];
+        } else if (isset($_SESSION["swipeMadeWith"])) {
+            echo "Swiped ".$_SESSION["swipeMadeWith"];
+        }
+        unset($_SESSION["matchMadeWith"], $_SESSION["swipeMadeWith"]);
+        ;?>
+    </h1>
+
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
     <!-- link to image stored inside session -->
     <h2>
@@ -88,6 +99,7 @@
             echo "sorry no matches at this time!";
         }?>
     </h2>
+    
     <!-- profile picture -->
     <img src=<?php 
     if (isset($_SESSION['m_img_link']))
