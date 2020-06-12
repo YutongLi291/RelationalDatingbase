@@ -15,6 +15,24 @@
     include 'connect.php';
     session_start();
 
+
+        // default starting account
+        if (!isset($_SESSION['username'])) {
+            session_start();
+            setCurrCID(5);
+            setCurrUser("bbbbra@hotmail.com");
+        } 
+    
+        if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+        if (isset($_POST['cID'])) setCurrCID($_POST['cID']);
+    
+        if (isset($_POST['text'])) {
+            send();
+        }
+        echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
+    
+    
+
     getMatch();
 
     function getMatch() {
@@ -40,15 +58,23 @@
             // this is the lucky person!
             $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
+            $_SESSION['swipeeEmail'] = $row['email'];
         } else {
-            $_SESSION['m_name'] = "Sorry no matches!";
+            unset($_SESSION['m_name']);
         }
     }  
     ?>
 
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
     <!-- link to image stored inside session -->
-    <h2><?php echo $_SESSION['m_name']?></h2>
+    <h2>
+        <?php 
+        if (isset($_SESSION['m_name'])) {
+            echo $_SESSION['m_name'];
+        } else {
+            echo "sorry no matches at this time!";
+        }?>
+    </h2>
     <!-- profile picture -->
     <img src=<?php echo $_SESSION['m_img_link'];?>>
     <p>

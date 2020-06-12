@@ -2,6 +2,7 @@
     include 'connect.php';
     include "save_message.php";
 
+    // default starting account
     if (!isset($_SESSION['username'])) {
         session_start();
         setCurrCID(5);
@@ -13,7 +14,6 @@
 
     if (isset($_POST['text'])) {
         send();
-        // unset($_POST['text']);
     }
     echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
 
@@ -78,7 +78,7 @@
             echo "</table>";
         } else {echo "no messages yet... say hi :)";}
         CloseCon($conn);
-        }
+    }
 ?>
 
 

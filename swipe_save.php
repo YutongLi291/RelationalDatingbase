@@ -5,10 +5,14 @@ echo "swipe_save.php\n";
 session_start();
 
 if (isset($_POST["match"])) {
+    echo "MATTTTCHHHHHHHHHHH";
     makeMatch();
 } else if (isset($_POST["no_match"])) {
+    echo "REMOVE MATCHHHHHHHHHHHHHHH";
     removeMatch();
 }
+
+// header("Location: browse.php");
 
 function makeMatch() {
     // adds new match to database
@@ -23,9 +27,11 @@ function makeMatch() {
     if ($row = $result->fetch_assoc()) {
         $next_sID = $row['max(sID)'] + 1;
     }
+    echo $next_sID;
 
     // get target
-    $target = "";
+    $target = $_SESSION['swipeeEmail'];
+    echo $target;
 
     // insert new swiping info
     $sql = 
@@ -35,8 +41,12 @@ function makeMatch() {
     // check if the target has swiped currUser
     $sql = "SELECT * from swipes where swiper='$target' and swipee='$currUser'";
     $result = $conn->query($sql);
-    if ($row = $result->fetch_assoc()) {
+    if ($row = $result->fetch_assoc()) { // just need to check if exists
         // get date
+        $sql = "SELECT CURDATE()";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $date = $row['CURDATE()'];
 
         // make new conversation
         $sql = "SELECT max(cID) from conversations";
@@ -52,7 +62,6 @@ function makeMatch() {
 
         echo "MATCH MADE!";
     }
-    unset($_POST["match"]);
 }
 
 function removeMatch() {

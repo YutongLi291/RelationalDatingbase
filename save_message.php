@@ -46,7 +46,8 @@
 
         $sql = "INSERT INTO hasusermessages (meID, timeSent, text, userEmail, cID) VALUES ($currMeID, '$currTime', '$text', '$currUser', $currCID);";
         run($conn,$sql);
-        
+        CloseCon($conn);
+
         header("Location: display_chat.php");
     }
 ?>
