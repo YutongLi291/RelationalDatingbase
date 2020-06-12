@@ -13,7 +13,7 @@
 
     if (isset($_POST['text'])) {
         send();
-        unset($_POST['text']);
+        // unset($_POST['text']);
     }
     echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
 
@@ -82,15 +82,8 @@
 ?>
 
 
-<?php
-    function postMessage() {
-        // code to be executed;      
-        echo 'posted!';
-    }
-?>
-
-<form method="POST" onAction="display_chat.php">
-    Type Here: <input type="text" name="text" size="100" placeholder="something nice">
+<form method="POST" onAction="save_message.php">
+    Type Here: <input type="text" name="text" size="100" placeholder="type here">
     <input type="submit" name="send" onClick>
 </form>
 
