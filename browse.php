@@ -32,7 +32,6 @@
         echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
     
     
-
     getMatch();
 
     function getMatch() {
@@ -52,7 +51,19 @@
         // get te next random match whenever this page is reloaded
         // todo: prioritize showing people who have already swiped you, otherwise just matching profiles in regards to gender pref
         $genderPref = $_SESSION['genderPref'];
-        $sql = "SELECT * from users, photos where gender='$genderPref' and profile_pic=pID order by RAND() limit 1";
+
+        $sql = 
+        "SELECT * from users u, photos p
+        where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN (
+            SELECT secondUser from usermatchescontains
+            where firstUser='$userEmail'
+            UNION
+            SELECT firstUser from usermatchescontains
+            where secondUser='$userEmail'
+        )
+        order by RAND() limit 1";
+    
+
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             // this is the lucky person!
@@ -60,7 +71,9 @@
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
             $_SESSION['swipeeEmail'] = $row['email'];
         } else {
+            unset($_SESSION['m_img_link']);
             unset($_SESSION['m_name']);
+            unset($_SESSION['swipeeEmail']);
         }
     }  
     ?>
@@ -76,7 +89,10 @@
         }?>
     </h2>
     <!-- profile picture -->
-    <img src=<?php echo $_SESSION['m_img_link'];?>>
+    <img src=<?php 
+    if (isset($_SESSION['m_img_link']))
+        echo $_SESSION['m_img_link'];
+        ?>>
     <p>
 
     <button type="submit" name="match">Yes</button>

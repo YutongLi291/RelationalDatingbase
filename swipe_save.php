@@ -5,14 +5,14 @@ echo "swipe_save.php\n";
 session_start();
 
 if (isset($_POST["match"])) {
-    echo "MATTTTCHHHHHHHHHHH";
+    echo "MATCH";
     makeMatch();
 } else if (isset($_POST["no_match"])) {
-    echo "REMOVE MATCHHHHHHHHHHHHHHH";
+    echo "REMOVE";
     removeMatch();
 }
 
-// header("Location: browse.php");
+header("Location: browse.php");
 
 function makeMatch() {
     // adds new match to database
@@ -71,8 +71,7 @@ function makeMatch() {
 function removeMatch() {
     // removes this user without additional action
     // random goes around comes OURND 
-    echo "no";
-    unset($_POST["no_match"]);
+    echo "nope.";
 }
 
 ?>
