@@ -10,11 +10,13 @@
     <title>Browse</title>
 </head>
 <body>
-    
+    <p>This press yes to swipe right, no to swipe left. 
+        Next user is randomly drawn and matches your gender preference and you have not yet swiped right on.
+    </p>
+
     <?php 
     include 'connect.php';
     session_start();
-
 
         // default starting account
         if (!isset($_SESSION['username'])) {
@@ -29,17 +31,16 @@
         if (isset($_POST['text'])) {
             send();
         }
-        echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
-    
+        echo "You are logged in as ".$_SESSION['username'];
     
     getMatch();
 
     function getMatch() {
         $conn = OpenCon();
         $userEmail = $_SESSION['username'];
-        // setting gender and genderpref to sessions
+        // set genderpref to sessions
         // use later in swipe_save.php
-        if(!isset($_SESSION['gender']) || !isset($_SESSION['genderPref'])) {
+        if(!isset($_SESSION['genderPref'])) {
             $sql = "SELECT * from users where users.email = '$userEmail'";
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
@@ -48,8 +49,8 @@
                 echo "get user gender and genderPref error";
             }
         }
-        // get te next random match whenever this page is reloaded
-        // todo: prioritize showing people who have already swiped you, otherwise just matching profiles in regards to gender pref
+        // get the next random match whenever this page is reloaded
+        // matching profiles in regards to gender pref
         $genderPref = $_SESSION['genderPref'];
 
         $sql = 
@@ -78,51 +79,48 @@
     }  
     ?>
 
-    <h1>
-        <?php 
+<!-- notification of action -->
+    <p><?php 
         if (isset($_SESSION["matchMadeWith"])) {
             echo "Match made with ".$_SESSION["matchMadeWith"];
         } else if (isset($_SESSION["swipeMadeWith"])) {
             echo "Swiped ".$_SESSION["swipeMadeWith"];
         }
         unset($_SESSION["matchMadeWith"], $_SESSION["swipeMadeWith"]);
-        ;?>
-    </h1>
+    ?></p>
 
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
-    <!-- link to image stored inside session -->
-    <h2>
-        <?php 
-        if (isset($_SESSION['m_name'])) {
-            echo $_SESSION['m_name'];
-        } else {
-            echo "sorry no matches at this time!";
-        }?>
-    </h2>
-    
-    <!-- profile picture -->
-    <img src=<?php 
-    if (isset($_SESSION['m_img_link']))
-        echo $_SESSION['m_img_link'];
-        ?>>
-    <p>
+        <h2><?php 
+            if (isset($_SESSION['m_name'])) {
+                echo $_SESSION['m_name'];
+            } else {
+                echo "sorry no matches at this time!";
+            }
+        ?></h2>
+        <!-- profile picture -->
+        <img src=<?php 
+        if (isset($_SESSION['m_img_link']))
+            echo $_SESSION['m_img_link'];
+            ?>>
+        <br>
+        <button type="submit" name="match">Yes</button>
+        <button type="submit" name="no_match">No</button>
+        <br>
+    </form>
 
-    <button type="submit" name="match">Yes</button>
 
-    <button type="submit" name="no_match">No</button>
+    <!-- <form id="filter_form" action="filter_browse.php" method="post">
+        <h3>Filter by:</h3>
+        <label>Relationship:</label>
+        <select id="relationship" name="relationship" >
+				<option value="" disabled selected>Select your option</option>
+			    <option value="1">Polyamorous</option>
+			    <option value="2">Monogamous</option>
+			    <option value="3">Platonic</option>
+			    <option value="4">Casual</option>
+			    <option value="5">Asexual</option>
+		</select>
+        <button type="submit" name="apply_filter">Go</button>
+        </form> -->
 </body>
 </html>
-
-<?php
-
-
-
-
-
-
-
-
-
-
-
-?>

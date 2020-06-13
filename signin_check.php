@@ -19,10 +19,14 @@ $result = $conn->query($query);
 
 if (mysqli_num_rows($result) == 1) {
 	$_SESSION["username"] = $username;
+<<<<<<< HEAD
 	header("Location: browse.php");
+=======
+	header("Location: profile.php");
+>>>>>>> 20c5e2188d9394b04d07991e5b7860ced418d0eb
 } else {
 	$_SESSION["error"] = $error;
-    header("location: signin.php?msg=error");
+    header("location: signin.php");
 }
 
 ?>

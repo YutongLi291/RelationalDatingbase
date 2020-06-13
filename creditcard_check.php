@@ -14,7 +14,7 @@ $sql = "INSERT INTO creditcards (PAN, cardholder, expirationDate, company, userE
 if ($conn->query($sql) === TRUE) {
   header("Location: signup_success.php");
 } else {
-  echo "Credit card error";
+  echo "Credit card error. Make sure you re-enter the email address you used to sign up.";
 }
 
 CloseCon($conn);
