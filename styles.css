@@ -297,3 +297,146 @@ nav a{
 	margin:0;
 	padding:0;
 }
+
+
+/* ===============================================
+		BROWSE
+================================================== */
+
+#browse_profilepic{
+	padding: 30;
+	border: 3px solid #EA6557;
+}
+
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	text-align: center;
+}
+
+#swipeRightButton {
+	background: #52d154;
+	color: #fff;
+	width: 40%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#swipeLeftButton {
+	background: #EA6557;
+	color: #fff;
+	width: 40%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#gotoProfileButton {
+	background: purple;
+	color: #fff;
+	width: 100%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#toggleAllBrowseButton {
+	background: rgb(160, 160, 160);
+	color: #fff;
+	width: 100%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+
+/* ===============================================
+	DISPLAY CHAT
+================================================== */
+
+/* Chat containers */
+.container {
+	border: 1px solid #dedede;
+	background-color: #f1f1f1;
+	border-radius: 5px;
+	padding: 5px;
+	margin: 10px;
+  }
+  
+  /* Darker chat container */
+  .darker {
+	border-color: #ccc;
+	background-color: #ddd;
+  }
+  
+  /* Clear floats */
+  .container::after {
+	content: "";
+	clear: both;
+	display: table;
+  }
+  
+  /* Style images */
+  .container img {
+	float: left;
+	max-width: 80px;
+	width: 100%;
+	margin-right: 20px;
+	border-radius: 50%;
+  }
+  
+  /* Style the right image */
+  .container img.right {
+	float: right;
+	margin-left: 20px;
+	margin-right:0;
+  }
+  
+  /* Style time text */
+  .time-right {
+	float: right;
+	color: #aaa;
+  }
+  
+  /* Style time text */
+  .time-left {
+	float: left;
+	color: #999;
+  }
+  
+  #sendMessage {
+	background: #EA6557;
+	color: #fff;
+	width: 20%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+	margin-top: 10px;
+  }
