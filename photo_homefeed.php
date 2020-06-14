@@ -10,8 +10,6 @@
 	<body>
 		<h1>Your Photo Feed</h1>
 		
-		
-		
 	</body>
 </html>
 <?php
@@ -37,15 +35,22 @@
 	$result = $conn0->query($sql0);
 	$row = $result->fetch_assoc();
 	echo "You are logged in as ".$row["firstName"]." ".$row["lastName"]." (".$_SESSION['userEmail'].")";
-	
+		
 	load_feed();
-	
+
 	include 'react_photo.php';
-	if (empty($_GET['reacts'])) {}
+	if (empty($_GET['reacts'])) { echo "GET REACTS IS EMPTY";}
 	else{
-        react();
+		echo "pID: ".$_GET['pID'];
+		echo "reaction: ".$_GET['reacts'];
+		echo "REACTS GET NOT EMPTY";
+		
+		react();
+		
         unset($_GET['reacts']);
 	}
+
+	
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
 	}
@@ -79,6 +84,7 @@
 			<th class='border-class'>Action</th>
 			</tr>"; // output data of each row
 			$alreadySeen = array();
+
 			while($row = $result->fetch_assoc()) {
 				$postID = $row["postID"];
 				if (in_array($postID, $alreadySeen)){
@@ -89,18 +95,18 @@
 					$sender = $row["firstName"]. " ". $row["lastName"] ;
 				}
 				
-				
-				$sql = "SELECT postID, users.email, firstName, lastName, rt.type type, rt.reactionText text from users, reactiontext rt,reactspicposts WHERE postID = $postID 
+				$sql = "SELECT postID, users.email, firstName, lastName, rt.type as type, rt.reactionText as text from users, reactiontext rt,reactspicposts WHERE postID = $postID 
 				AND reactspicposts.type = rt.type AND users.email = reactspicposts.userEmail ORDER BY type ASC";
 				$reacts = $conn->query($sql);
 				
 				$reacttexts = "";
-				if ($reacts->num_rows > 0){
-					while($reactrow = $reacts->fetch_assoc()){
-						$reacttexts .= $reactrow["firstName"]." ".$reactrow["lastName"]." ".$reactrow["text"].", ";
-					}
-					$reacttexts = substr($reacttexts,0,-2);
+				while($reactrow = $reacts->fetch_assoc()){
+					echo $reactrow["text"]; // delete
+					$reacttexts = $reactrow["firstName"]." ".$reactrow["lastName"]." ".$reactrow["text"].", ";
 				}
+				// $reacttexts = substr($reacttexts,0,-2);
+
+				// get photos related to curr postID
 				$sql = "SELECT * from photos WHERE postID = $postID";
 				$photos = $conn->query($sql);
 				$pic = "";
@@ -109,36 +115,41 @@
 					$imageData = base64_encode(file_get_contents($image));
 					$pic .= '<img src="data:image/png;base64,' .$imageData.' "width = 35%>';
 				}
-				
-				
-				
+							
 				array_push($alreadySeen, $postID);
 				echo "<tr><td class='border-class'>".$sender."</td>
 				<td class='border-class'>".$row["dt"]."</td>
 				<td class='border-class'>".$row["city"].", ". $row["province"]."</td>
 				<td class='border-class'>".$pic."</td><td class='border-class'>".$row["picMood"]."</td>
-			<td class='border-class'>".$reacttexts."</td><td>"; ?>
-			<form onAction='photo_homefeed.php' method='GET'>
-				<select id='reacts' name='reacts' >
-					<option value='' disabled selected>Select your option</option>
-					<option value='angry${postID}'>Angry</option>
-					<option value='like${postID}'>Like</option>
-					<option value='love${postID}'>Love</option>
-					<option value='sad${postID}'>Sad</option>
-					<option value='happy${postID}'>Happy</option>
-				</select><input type='submit' name='react'  onClick></form></tr>
-				<?php
+				<td class='border-class'>".$reacttexts."</td><td>"; 
+				?>
+
+			
+				<form onAction='photo_homefeed.php' method='GET'>
 					
-					echo "<tr><td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td></tr>";
-					unset($reacttexts);
-					unset($reacts);
-					unset($postID);
-				}
+					<select id='reacts' name='reacts' >
+						<option value='' disabled selected>Select your option</option>
+						<option value="angry"?>Angry</option>
+						<option value='like'>Like</option>
+						<option value='love'>Love</option>
+						<option value='sad'>Sad</option>
+						<option value='happy'>Happy</option>
+					</select>
+					<input type='submit' name='react' onClick>
+					<input id="pID" name="pID" type="text" value=<?php echo "{$postID}"?>>
+				</form></tr>
+					<?php
+						
+						echo "<tr><td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td></tr>";
+						unset($reacttexts);
+						unset($reacts);
+						unset($postID);
+			}
 				echo "</table>";
 	} else {echo "\n No posts yet... say hi :)";}
 	CloseCon($conn);
