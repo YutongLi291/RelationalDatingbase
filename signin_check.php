@@ -16,10 +16,9 @@ $query = "SELECT * FROM users WHERE email = '". $username ."' AND password = '".
 $result = $conn->query($query);
 
 //echo mysqli_num_rows($result); TO TEST THE NUMBER OF ROWS OUTPUTTED
-
 if (mysqli_num_rows($result) == 1) {
 	$_SESSION["username"] = $username;
-	header("Location: homefeeed.php");
+	header("Location: homefeed.php");
 } else {
 	$_SESSION["error"] = $error;
     header("location: signin.php");
