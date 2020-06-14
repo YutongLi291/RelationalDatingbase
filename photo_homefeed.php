@@ -9,7 +9,10 @@
 	</head>
 	<body>
 		<h1>Your Photo Feed</h1>
-		<h3>refresh again to see changes</h3>
+		<h4>refresh again to see changes to reacts</h4>
+		<form action="text_homefeed.php">
+			<input type="submit" value="Go to Text Feed" />
+		</form>
 	</body>
 </html>
 <?php
@@ -165,22 +168,33 @@
 <form method="POST" onAction="photo_homefeed.php">
 	Post Image Links (Separate with semicolon(;), png only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
 	Current Mood: <input type="text" name="mood" size="20" placeholder="Happy">
-	City: <input type="text" name="city" size="15" placeholder="Vancouver">
-	<select id="province" name="province" >
-		<option value="" disabled selected>Select your option</option>
-		<option value="AB">AB</option>
-		<option value="BC">BC</option>
-		<option value="MB">MB</option>
-		<option value="NB">NB</option>
-		<option value="NL">NL</option>
-		<option value="NS">NS</option>
-		<option value="ON">ON</option>
-		<option value="PE">PE</option>
-		<option value="QC">QC</option>
-		<option value="SK">SK</option>
-		<option value="NT">NT</option>
-		<option value="NU">NU</option>
-		<option value="YT">YT</option>   
+	<select id="city" name="city" >
+		<option value="" disabled selected>Select your city</option>
+		<option value="9">Burnaby</option>
+		<option value="2">Calgary</option>
+		<option value="18">Charlottetown</option>
+		<option value="11">Edmonton</option>
+		<option value="3">Halifax</option>
+		<option value="5">Hamilton</option>
+		<option value="24">Iqaluit</option>
+		<option value="1">Kelowna</option>
+		<option value="20">Lethbridge</option>
+		<option value="22">Moncton</option>
+		<option value="12">Montreal</option>
+		<option value="16">Oshawa</option>
+		<option value="8">Ottawa</option>
+		<option value="7">Quebec</option> 
+		<option value="4">Regina</option> 
+		<option value="17">Saint John</option> 
+		<option value="13">Saskatoon</option> 
+		<option value="14">Surrey</option>
+		<option value="10">Toronto</option> 
+		<option value="0">Vancouver</option> 
+		<option value="15">Victoria</option> 
+		<option value="21">Whitehorse</option> 
+		<option value="23">Windsor</option> 
+		<option value="6">Winnipeg</option> 
+		<option value="19">Yellowknife</option> 
 	</select>
     <input type="submit" name="post" onClick>
 	</form>

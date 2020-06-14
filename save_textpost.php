@@ -26,22 +26,9 @@
                 $_SESSION["postID"] = 1;
 			}
 		}
-		$city = $_POST["city"];
-		$province = $_POST["province"];
-		$sql = "SELECT locID FROM location WHERE LOWER(city) LIKE LOWER('$city') AND province = '$province';";
-		$result = $conn->query($sql);
-        if ($row = $result->fetch_assoc()) {
-			$locID= $row["locID"] ;
-            } else {          ///RUN if location is not in location database
-			$sql = "(SELECT max(locID) +1 as id from location);";
-			$result = $conn->query($sql);
-			$row = $result->fetch_assoc();
-			$locID = $row["id"];
-			$sql =
-            "INSERT INTO location (locID, province, city) VALUES ($locID, '$province', '$city')";
-			$result = $conn->query($sql);
-			
-		}
+		$locID = $_POST["city"];
+		
+            
 		
         $currPostID = $_SESSION["postID"];
         $mood = $_POST["mood"];
