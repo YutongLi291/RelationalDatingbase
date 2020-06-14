@@ -99,8 +99,9 @@
 				
 				$reacttexts = "";
 				while($reactrow = $reacts->fetch_assoc()){
-					$reacttexts = $reactrow["firstName"]." ".$reactrow["lastName"]." ".$reactrow["text"].", ";
+					$reacttexts .= $reactrow["firstName"]." ".$reactrow["lastName"]." ".$reactrow["text"].", ";
 				}
+				$reacttexts = substr($reacttexts, 0, -2);
 
 				// get photos related to curr postID
 				$sql = "SELECT * from photos WHERE postID = $postID";
