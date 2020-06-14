@@ -6,7 +6,7 @@
     if (!isset($_SESSION['username'])) {
         session_start();
         setCurrCID(5);
-        setCurrUser("bbbbra@hotmail.com");
+        setCurrUser("bbbb@hotmail.com");
     } 
 
     if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);

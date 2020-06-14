@@ -34,6 +34,18 @@
         echo "You are logged in as ".$_SESSION['username'];
     
     getMatch();
+    ?>
+
+    <?php
+
+    function setCurrCID($currCID) {
+        $_SESSION['cID'] = $currCID;
+    }
+    function setCurrUser($currUser) {
+        $_SESSION['username'] = $currUser;
+    }
+
+
 
     function getMatch() {
         $conn = OpenCon();
@@ -53,16 +65,31 @@
         // matching profiles in regards to gender pref
         $genderPref = $_SESSION['genderPref'];
 
-        $sql = 
-        "SELECT * from users u, photos p
-        where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN (
-            SELECT secondUser from usermatchescontains
-            where firstUser='$userEmail'
-            UNION
-            SELECT firstUser from usermatchescontains
-            where secondUser='$userEmail'
-        )
-        order by RAND() limit 1";
+
+        if (isset($_SESSION['show_all'])) {
+            $sql = 
+            "SELECT * from users u, photos p
+            where u.profile_pic=p.pID and u.email NOT IN (
+                SELECT secondUser from usermatchescontains
+                where firstUser='$userEmail'
+                UNION
+                SELECT firstUser from usermatchescontains
+                where secondUser='$userEmail'
+            )
+            order by RAND() limit 1";
+        } else {
+            $sql = 
+            "SELECT * from users u, photos p
+            where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN (
+                SELECT secondUser from usermatchescontains
+                where firstUser='$userEmail'
+                UNION
+                SELECT firstUser from usermatchescontains
+                where secondUser='$userEmail'
+            )
+            order by RAND() limit 1";
+
+        }
     
 
         $result = $conn->query($sql);
@@ -108,19 +135,15 @@
         <br>
     </form>
 
-
-    <!-- <form id="filter_form" action="filter_browse.php" method="post">
-        <h3>Filter by:</h3>
-        <label>Relationship:</label>
-        <select id="relationship" name="relationship" >
-				<option value="" disabled selected>Select your option</option>
-			    <option value="1">Polyamorous</option>
-			    <option value="2">Monogamous</option>
-			    <option value="3">Platonic</option>
-			    <option value="4">Casual</option>
-			    <option value="5">Asexual</option>
-		</select>
-        <button type="submit" name="apply_filter">Go</button>
-        </form> -->
+    <form id="filter_form" action="apply_filter.php" method="post">
+        <button type="submit" name="apply_filter">
+            <?php if (isset($_SESSION['show_all'])) {
+                echo "Unshow All";
+            } else {
+                echo "Show All";
+            }
+            ?>
+        </button>
+        </form>
 </body>
 </html>
