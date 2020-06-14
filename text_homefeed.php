@@ -39,7 +39,19 @@
 	load_feed();
 ?>
 <?php
-	
+	include 'react_text.php';
+	if (empty($_GET['reacts'])) {
+		//  echo "GET REACTS IS EMPTY";
+		 removeReact();
+	}
+	else{
+		// echo "pID: ".$_GET['pID'];
+		// echo "reaction: ".$_GET['reacts'];
+		// echo "REACTS GET NOT EMPTY";
+		react();
+		
+        unset($_GET['reacts']);
+	}
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
 	}
@@ -70,8 +82,7 @@
 			<th class='border-class'>Mood</th>
 			<th class='border-class'>Reacts</th>
 			</tr>"; // output data of each row
-			while($row =
-			$result->fetch_assoc()) {
+			while($row = $result->fetch_assoc()) {
 				
 				
 				if ($row["userEmail"] == $currUser) {
@@ -98,7 +109,25 @@
 				class='border-class'>".$row["city"].", ". $row["province"]."</td><td
 				class='border-class'>".$row["content"]."</td><td
 				class='border-class'>".$row["textMood"]."</td>
-				<td class='border-class'>".$reacttexts."</td></tr>";
+				<td class='border-class'>".$reacttexts."</td><td>";
+				
+				?>
+
+			
+				<form onAction='text_homefeed.php' method='GET'>
+					
+					<select id='reacts' name='reacts' >
+						<option value='' disabled selected>Select your option</option>
+						<option value="angry"?>Angry</option>
+						<option value='like'>Like</option>
+						<option value='love'>Love</option>
+						<option value='sad'>Sad</option>
+						<option value='happy'>Happy</option>
+					</select>
+					<input type='submit' name='react' onClick>
+					<input id="pID" name="pID" type="hidden" value=<?php echo "{$postID}"?>>
+				</form></tr>
+					<?php
 				echo "<tr><td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
