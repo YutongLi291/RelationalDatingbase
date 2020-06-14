@@ -17,6 +17,7 @@
 <?php
 	include 'connect.php';
 	include "save_photopost.php";
+	
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	
@@ -29,6 +30,7 @@
         post();
         unset($_POST['text']);
 	}
+	
 	$currUser = $_SESSION['userEmail'];
 	$sql0 = "SELECT firstName, lastName from users WHERE email = '$currUser'";
 	$conn0 = OpenCon();
@@ -37,9 +39,13 @@
 	echo "You are logged in as ".$row["firstName"]." ".$row["lastName"]." (".$_SESSION['userEmail'].")";
 	
 	load_feed();
-?>
-<?php
 	
+	include 'react_photo.php';
+	if (empty($_GET['reacts'])) {}
+	else{
+        react();
+        unset($_GET['reacts']);
+	}
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
 	}
@@ -71,7 +77,6 @@
 			<th class='border-class'>Mood</th>
 			<th class='border-class'>Reacts</th>
 			<th class='border-class'>Action</th>
-			<th class='border-class'>Submit</th>
 			</tr>"; // output data of each row
 			$alreadySeen = array();
 			while($row = $result->fetch_assoc()) {
@@ -100,49 +105,58 @@
 				$photos = $conn->query($sql);
 				$pic = "";
 				while ($photorow = $photos->fetch_assoc()){
-				$image = $photorow["link"];
-				$imageData = base64_encode(file_get_contents($image));
-				$pic .= '<img src="data:image/png;base64,' .$imageData.' "width = 35%>';
+					$image = $photorow["link"];
+					$imageData = base64_encode(file_get_contents($image));
+					$pic .= '<img src="data:image/png;base64,' .$imageData.' "width = 35%>';
 				}
+				
+				
+				
 				array_push($alreadySeen, $postID);
 				echo "<tr><td class='border-class'>".$sender."</td>
 				<td class='border-class'>".$row["dt"]."</td>
 				<td class='border-class'>".$row["city"].", ". $row["province"]."</td>
 				<td class='border-class'>".$pic."</td><td class='border-class'>".$row["picMood"]."</td>
-				<td class='border-class'>".$reacttexts."</td></tr>";
-				echo "<select id='haha' name='haha'>".
-				"<option value='' disabled selected>"."Select your option"."</option>".
-				"<option value='AB'>"."AB"."</option>".
-				"<option value='NB'>"."NB"."</option></select>";
-				
-				echo "<tr><td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td></tr>";
-				unset($reacttexts);
-				unset($reacts);
-				unset($postID);
-			}
-			echo "</table>";
-		} else {echo "\n No posts yet... say hi :)";}
-		CloseCon($conn);
-	}
-	///TODO: REACT TO POSTS
-	///SEPARATE BETWEEN TEXT AND PHOTO POSTS WHEN POSTING
-	
-	///POST ID IS NEGATIVE if Picture
-	///Post ID IS POSITIVE IF TEXT
-	
-	
-	
+			<td class='border-class'>".$reacttexts."</td><td>"; ?>
+			<form onAction='photo_homefeed.php' method='GET'>
+				<select id='reacts' name='reacts' >
+					<option value='' disabled selected>Select your option</option>
+					<option value='angry${postID}'>Angry</option>
+					<option value='like${postID}'>Like</option>
+					<option value='love${postID}'>Love</option>
+					<option value='sad${postID}'>Sad</option>
+					<option value='happy${postID}'>Happy</option>
+				</select><input type='submit' name='react'  onClick></form></tr>
+				<?php
+					
+					echo "<tr><td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td></tr>";
+					unset($reacttexts);
+					unset($reacts);
+					unset($postID);
+				}
+				echo "</table>";
+	} else {echo "\n No posts yet... say hi :)";}
+	CloseCon($conn);
+}
+///TODO: REACT TO POSTS
+///SEPARATE BETWEEN TEXT AND PHOTO POSTS WHEN POSTING
+
+///POST ID IS NEGATIVE if Picture
+///Post ID IS POSITIVE IF TEXT
+
+
+
 ?>
 
 
 <form method="POST" onAction="photo_homefeed.php">
-	Image Links (Separate with semicolon(;), png only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
-	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
+	Post Image Links (Separate with semicolon(;), png only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
+	Current Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	City: <input type="text" name="city" size="15" placeholder="Vancouver">
 	<select id="province" name="province" >
 		<option value="" disabled selected>Select your option</option>
@@ -161,4 +175,5 @@
 		<option value="YT">YT</option>   
 	</select>
     <input type="submit" name="post" onClick>
-</form>
+	</form>
+		
