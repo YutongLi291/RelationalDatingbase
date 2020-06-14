@@ -59,5 +59,6 @@
         $sql = "INSERT INTO textposts (postID, location, userEmail, dateTime,textMood, content) VALUES ($currPostID, $locID, '$currUser', '$currTime', '$mood', '$text');";
         run($conn,$sql);
 		unset($_POST['text']);
+		 header("Location: text_homefeed.php");
 	}
 ?>

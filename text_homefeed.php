@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Home Feed</title>
+		<title>Text Feed</title>
 		<link rel="stylesheet" href = "styles.css">
 	</head>
 	<body>
@@ -16,7 +16,7 @@
 </html>
 <?php
 	include 'connect.php';
-	include "save_post.php";
+	include "save_textpost.php";
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	
@@ -125,7 +125,7 @@
 ?>
 
 
-<form method="POST" onAction="homefeed.php">
+<form method="POST" onAction="text_homefeed.php">
 	Type Here: <input type="text" name="text" size="50" placeholder="Type status here">
 	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	City: <input type="text" name="city" size="15" placeholder="Vancouver">

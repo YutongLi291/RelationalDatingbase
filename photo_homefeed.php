@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Home Feed</title>
+		<title>Photo Feed</title>
 		<link rel="stylesheet" href = "styles.css">
 	</head>
 	<body>
@@ -16,7 +16,7 @@
 </html>
 <?php
 	include 'connect.php';
-	include "save_post.php";
+	include "save_photopost.php";
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	
@@ -58,7 +58,7 @@
 		UNION SELECT firstUser FROM usermatchescontains
 		WHERE secondUser = '$currUser'
 		UNION  SELECT '$currUser')
-		AND users.email = pictureposts.userEmail AND pictureposts.location = location.locID order by pictureposts.dateTime DESC ";
+		AND users.email = pictureposts.userEmail AND pictureposts.location = location.locID order by dt DESC ";
 		
 		$result = $conn->query($sql);
 		
@@ -70,15 +70,20 @@
 			<th class='border-class'>Picture</th>
 			<th class='border-class'>Mood</th>
 			<th class='border-class'>Reacts</th>
+			<th class='border-class'>Action</th>
+			<th class='border-class'>Submit</th>
 			</tr>"; // output data of each row
-			while($row =
-			$result->fetch_assoc()) {
+			$alreadySeen = array();
+			while($row = $result->fetch_assoc()) {
+				$postID = $row["postID"];
+				if (in_array($postID, $alreadySeen)){
+				continue;}
 				if ($row["userEmail"] == $currUser) {
 					$sender = "You";
 					} else {
 					$sender = $row["firstName"]. " ". $row["lastName"] ;
 				}
-				$postID = $row["postID"];
+				
 				
 				$sql = "SELECT postID, users.email, firstName, lastName, rt.type type, rt.reactionText text from users, reactiontext rt,reactspicposts WHERE postID = $postID 
 				AND reactspicposts.type = rt.type AND users.email = reactspicposts.userEmail ORDER BY type ASC";
@@ -91,15 +96,31 @@
 					}
 					$reacttexts = substr($reacttexts,0,-2);
 				}
-				
-				$image = $row["link"];
+				$sql = "SELECT * from photos WHERE postID = $postID";
+				$photos = $conn->query($sql);
+				$pic = "";
+				while ($photorow = $photos->fetch_assoc()){
+				$image = $photorow["link"];
 				$imageData = base64_encode(file_get_contents($image));
-				$pic = '<img src="data:image/png;base64,' .$imageData.' "width = 35%>';
+				$pic .= '<img src="data:image/png;base64,' .$imageData.' "width = 35%>';
+				}
+				array_push($alreadySeen, $postID);
 				echo "<tr><td class='border-class'>".$sender."</td>
 				<td class='border-class'>".$row["dt"]."</td>
 				<td class='border-class'>".$row["city"].", ". $row["province"]."</td>
 				<td class='border-class'>".$pic."</td><td class='border-class'>".$row["picMood"]."</td>
 				<td class='border-class'>".$reacttexts."</td></tr>";
+				echo "<select id='haha' name='haha'>".
+				"<option value='' disabled selected>"."Select your option"."</option>".
+				"<option value='AB'>"."AB"."</option>".
+				"<option value='NB'>"."NB"."</option></select>";
+				
+				echo "<tr><td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td></tr>";
 				unset($reacttexts);
 				unset($reacts);
 				unset($postID);
@@ -119,8 +140,8 @@
 ?>
 
 
-<form method="POST" onAction="homefeed.php">
-	Image Link(s): Separate with comma: <input type="text" name="text" size="50" placeholder="Paste link(s) here">
+<form method="POST" onAction="photo_homefeed.php">
+	Image Links (Separate with semicolon(;), png only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
 	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	City: <input type="text" name="city" size="15" placeholder="Vancouver">
 	<select id="province" name="province" >
