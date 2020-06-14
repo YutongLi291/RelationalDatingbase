@@ -14,7 +14,7 @@
     include "save_message.php";
 
     // default starting account
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['userEmail'])) {
         session_start();
         setCurrCID(5);
         setCurrUser("bbbb@hotmail.com");
@@ -26,7 +26,9 @@
     if (isset($_POST['text'])) {
         send();
     }
-    echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID']."<p>";
+    
+
+    echo "You are logged in as ".$_SESSION['userEmail']." in conversation cID ".$_SESSION['cID']."<p>";
 
     start_chat();
 ?>
@@ -36,14 +38,24 @@
         $_SESSION['cID'] = $currCID;
     }
     function setCurrUser($currUser) {
-        $_SESSION['username'] = $currUser;
+        $_SESSION['userEmail'] = $currUser;
+    }
+
+    function setUserProfilePic($conn) {
+        $currUser = $_SESSION['userEmail'];
+        $sql = "SELECT link from users, photos where email='$currUser' and pID=profile_pic";
+
+        $result = $conn->query($sql);
+        $_SESSION['userProfilePic'] = $result->fetch_assoc()['link'];
     }
 
     function start_chat() {
     
         $conn = OpenCon();
-        $currUser = $_SESSION['username'];
+        $currUser = $_SESSION['userEmail'];
         $currCID = $_SESSION['cID'];
+
+        setUserProfilePic($conn);
     
         // get name of other user
         $sql = 
@@ -61,41 +73,66 @@
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             $partnerName = $row["firstname"]." ".$row["lastname"];
+            $partnerEmail = $row["email"];
         } else {
             echo "error";
         }
-    
+        
+        // get partner profile photo
+        $partner_pic_sql = 
+            "SELECT link from users u join photos p on u.profile_pic=p.pID where u.email='$partnerEmail'";
+        $result = $conn->query($partner_pic_sql);
+        $_SESSION["partnerProfilePic"] = $result->fetch_assoc()['link'];
+
+        // get all the messages
         $sql = "SELECT * from hasusermessages where cID=$currCID order by timeSent";
-        //  where username=$currUser and cId=$currCID order by timeSent
+        //  where userEmail=$currUser and cId=$currCID order by timeSent
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
-            echo "<table>
-                <tr><th class='border-class'>User</th>
-                <th class='border-class'>TimeSent</th>
-                <th class='border-class'>Message</th>
-            </tr>"; // output data of each row
             while($row = 
             $result->fetch_assoc()) { 
                 if ($row["userEmail"] == $currUser) {
-                    $sender = "you";
+                    youSendMessage($row);
+                    // $sender = "you";
                 } else {
-                    $sender = $partnerName;
+                    theySendMessage($row, $partnerName);
+                    // $sender = $partnerName;
                 }
-                echo "<tr><td class='border-class'>".$sender."</td><td 
-                class='border-class'>".$row["timeSent"]."</td><td 
-                class='border-class'>".$row["text"]."</td></tr>";
             }
-            echo "</table>";
+            // echo "</table>";
         } else {echo "no messages yet... say hi :)";}
         CloseCon($conn);
     }
+
+    function theySendMessage($row, $sender) {
+        $timeSide = "time-right";
+        $profile_pic = $_SESSION['partnerProfilePic'];
+        echo 
+        "<div class=\"container\">".
+        "<img src=\"".$profile_pic."\" class=\"left\">"
+        .$sender.
+        "<p>".$row["text"]."</p>".
+        "<span class=\"".$timeSide."\">".$row["timeSent"]."</span></div>";
+    }
+
+    function youSendMessage($row) {
+        $timeSide = "time-left";
+        $sender = "you";
+        $profile_pic = $_SESSION['userProfilePic'];
+        echo 
+        "<div class=\"container darker\">".
+        "<img src=\"".$profile_pic."\" class=\"right\">"
+        .$sender.
+        "<p>".$row["text"]."</p>".
+        "<span class=\"".$timeSide."\">".$row["timeSent"]."</span></div>";
+    }
+
 ?>
 
-
 <form method="POST" onAction="save_message.php">
-    Type Here: <input type="text" name="text" size="100" placeholder="type here">
-    <input type="submit" name="send" onClick>
+    Type Here: <input type="text" name="text" size="70%" placeholder="type here">
+    <button id="sendMessage" type="submit" name="send">Send Message</button>
 </form>
 
 <form method="POST" onAction="display_chat.php">
@@ -103,7 +140,6 @@
     cID: <input type="text" name="cID"  placeholder="5">
     <input type="submit" name="send" onClick>
 </form>
-
 </body>
 </html>
 

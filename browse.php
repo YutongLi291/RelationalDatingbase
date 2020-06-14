@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <p>This select 'yes' to swipe right, 'no' to swipe left. 
+    <h1>Find Your Match!</h1>
+    <p class="center">This select 'yes' to swipe right, 'no' to swipe left. 
         <br>
         The next user is randomly drawn and matches your gender preference and you have not yet swiped right on (in this session).
     </p>
@@ -38,8 +39,8 @@
         if (isset($_POST['text'])) {
             send();
         }
-        echo "You are logged in as ".$_SESSION['userEmail'];
-    getMatch();
+        echo "<p class=\"center\">You are logged in as ".$_SESSION['userEmail']."</p>";
+        getMatch();
     ?>
 
     <?php
@@ -57,10 +58,9 @@
             if ($row = $result->fetch_assoc()) {
                 $_SESSION['genderPref'] = $row["prefersGender"];
             } else {
-                echo "get user gender and genderPref error";
+                echo "<p class=\"center\">get user gender and genderPref error</p>";
             }
         }
-
     }
 
     function getMatch() {
@@ -84,31 +84,32 @@
             SELECT blockee from blocks where blocker='$userEmail'";
 
         if (isset($_SESSION['show_all'])) {
-            $sql = 
+            $selectMatches_sql = 
             "SELECT * from users u, photos p
             where u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_sql.
+                .$alreadyMatched_selectMatches_sql.
             ")
             order by RAND() limit 1";
         } else {
-            $sql = 
+            $selectMatches_sql = 
             "SELECT * from users u, photos p
             where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_sql.
+                .$alreadyMatched_selectMatches_sql.
             ")
             order by RAND() limit 1";
         }
     
-
-        $result = $conn->query($sql);
+        // select match
+        $result = $conn->query($selectMatches_sql);
         if ($row = $result->fetch_assoc()) {
             // this is the lucky person!
             $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
+            $_SESSION['m_bio'] = $row['description'];
             
             // notification in case only one choice left
             if ($_SESSION['swipeeEmail'] == $row['email']) {
-                echo "<p>Looks like you're stuck with this one!</p>";
+                echo "<p class=\"center\">Looks like you're stuck with this one!</p>";
             } else {
                 $_SESSION['swipeeEmail'] = $row['email'];
             }
@@ -117,12 +118,13 @@
             unset($_SESSION['m_img_link']);
             unset($_SESSION['m_name']);
             unset($_SESSION['swipeeEmail']);
+            unset($_SESSION['m_bio']);
         }
     }  
     ?>
 
-<!-- notification of action -->
-    <p><?php 
+<!-- notification of actions -->
+    <p class ="center"><?php 
         if (isset($_SESSION["matchMadeWith"])) {
             echo "Match made with ".$_SESSION["matchMadeWith"];
         } else if (isset($_SESSION["swipeMadeWith"])) {
@@ -132,26 +134,40 @@
     ?></p>
 
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
-        <h2><?php 
-            if (isset($_SESSION['m_name'])) {
-                echo $_SESSION['m_name'];
-            } else {
-                echo "sorry no matches at this time!";
-            }
-        ?></h2>
+        
         <!-- profile picture -->
-        <img src=<?php 
+        <img id="browse_profilepic" class="center" src=<?php 
         if (isset($_SESSION['m_img_link']))
             echo $_SESSION['m_img_link'];
-            ?>>
+            ?> >
+        <!-- match name -->
+        <h3 class="center"><?php 
+        if (isset($_SESSION['m_name'])) {
+            echo $_SESSION['m_name'];
+        } else {
+            echo "sorry no matches at this time!";
+        }
+        ?></h3>
+        <!-- match bio -->
+        <p class="center"><?php
+            if(isset($_SESSION['m_bio'])) echo $_SESSION['m_bio'];
+        ?></p>
+
         <br>
-        <button type="submit" name="match">Yes</button>
-        <button type="submit" name="no_match">No</button>
+        <button id="swipeRightButton" class="center" type="submit" name="match" >Swipe Right</button>
+        <button id="swipeLeftButton" class="center" type="submit" name="no_match">Random</button>
         <br>
     </form>
 
-    <form id="filter_form" action="apply_filter.php" method="post">
-        <button type="submit" name="apply_filter">
+    <form id="filter_form" action="profile_redirect.php" method="post" class="center">
+        <button type="submit" name="goto_profile" id="gotoProfileButton">
+            <?php
+            echo "View ".$_SESSION['m_name']."'s Profile"; ?>
+    </button>
+    </form>
+
+    <form id="filter_form" action="apply_filter.php" method="post" class="center">
+        <button type="submit" id="toggleAllBrowseButton" name="apply_filter">
             <?php if (isset($_SESSION['show_all'])) {
                 echo "Filter By Your Gender Preference";
             } else {
