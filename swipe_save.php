@@ -18,7 +18,7 @@ function makeMatch() {
     // adds new match to database
     // creates a new conversation
     $conn = OpenCon();
-    $currUser = $_SESSION['username'];
+    $currUser = $_SESSION['userEmail'];
     
     // getting next ID
     $sql = "SELECT max(sID) from swipes";
@@ -72,6 +72,7 @@ function makeMatch() {
 
 function removeMatch() {
     echo "nope.";
+    // $_SESSION['left_swipes'][] = $_SESSION['swipeeEmail'];
 }
 
 ?>

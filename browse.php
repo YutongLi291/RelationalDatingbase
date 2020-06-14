@@ -8,10 +8,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <p>This press yes to swipe right, no to swipe left. 
-        Next user is randomly drawn and matches your gender preference and you have not yet swiped right on.
+    <p>This select 'yes' to swipe right, 'no' to swipe left. 
+        <br>
+        The next user is randomly drawn and matches your gender preference and you have not yet swiped right on (in this session).
     </p>
 
     <?php 
@@ -19,11 +22,15 @@
     session_start();
 
         // default starting account
-        if (!isset($_SESSION['username'])) {
+        if (!isset($_SESSION['userEmail'])) {
             session_start();
             setCurrCID(5);
             setCurrUser("bbbbra@hotmail.com");
         } 
+
+        // if (!isset($_SESSION['left_swipes'])) {
+        //     $_SESSION['left_swipes'] = array();
+        // }
     
         if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
         if (isset($_POST['cID'])) setCurrCID($_POST['cID']);
@@ -31,27 +38,19 @@
         if (isset($_POST['text'])) {
             send();
         }
-        echo "You are logged in as ".$_SESSION['username'];
-    
+        echo "You are logged in as ".$_SESSION['userEmail'];
     getMatch();
     ?>
 
     <?php
-
     function setCurrCID($currCID) {
         $_SESSION['cID'] = $currCID;
     }
     function setCurrUser($currUser) {
-        $_SESSION['username'] = $currUser;
+        $_SESSION['userEmail'] = $currUser;
     }
 
-
-
-    function getMatch() {
-        $conn = OpenCon();
-        $userEmail = $_SESSION['username'];
-        // set genderpref to sessions
-        // use later in swipe_save.php
+    function setGenderPref($userEmail) {
         if(!isset($_SESSION['genderPref'])) {
             $sql = "SELECT * from users where users.email = '$userEmail'";
             $result = $conn->query($sql);
@@ -61,34 +60,43 @@
                 echo "get user gender and genderPref error";
             }
         }
+
+    }
+
+    function getMatch() {
+        $conn = OpenCon();
+        $userEmail = $_SESSION['userEmail'];
+        // set genderpref to sessions
+        // use later in swipe_save.php
         // get the next random match whenever this page is reloaded
         // matching profiles in regards to gender pref
+        setGenderPref($userEmail);
         $genderPref = $_SESSION['genderPref'];
 
+
+        $alreadyMatched_sql = 
+            "SELECT secondUser from usermatchescontains
+            where firstUser='$userEmail'
+            UNION
+            SELECT firstUser from usermatchescontains
+            where secondUser='$userEmail'
+            UNION
+            SELECT blockee from blocks where blocker='$userEmail'";
 
         if (isset($_SESSION['show_all'])) {
             $sql = 
             "SELECT * from users u, photos p
-            where u.profile_pic=p.pID and u.email NOT IN (
-                SELECT secondUser from usermatchescontains
-                where firstUser='$userEmail'
-                UNION
-                SELECT firstUser from usermatchescontains
-                where secondUser='$userEmail'
-            )
+            where u.profile_pic=p.pID and u.email NOT IN ("
+                .$alreadyMatched_sql.
+            ")
             order by RAND() limit 1";
         } else {
             $sql = 
             "SELECT * from users u, photos p
-            where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN (
-                SELECT secondUser from usermatchescontains
-                where firstUser='$userEmail'
-                UNION
-                SELECT firstUser from usermatchescontains
-                where secondUser='$userEmail'
-            )
+            where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
+                .$alreadyMatched_sql.
+            ")
             order by RAND() limit 1";
-
         }
     
 
@@ -97,7 +105,14 @@
             // this is the lucky person!
             $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
-            $_SESSION['swipeeEmail'] = $row['email'];
+            
+            // notification in case only one choice left
+            if ($_SESSION['swipeeEmail'] == $row['email']) {
+                echo "<p>Looks like you're stuck with this one!</p>";
+            } else {
+                $_SESSION['swipeeEmail'] = $row['email'];
+            }
+               
         } else {
             unset($_SESSION['m_img_link']);
             unset($_SESSION['m_name']);
@@ -138,7 +153,7 @@
     <form id="filter_form" action="apply_filter.php" method="post">
         <button type="submit" name="apply_filter">
             <?php if (isset($_SESSION['show_all'])) {
-                echo "Unshow All";
+                echo "Filter By Your Gender Preference";
             } else {
                 echo "Show All";
             }

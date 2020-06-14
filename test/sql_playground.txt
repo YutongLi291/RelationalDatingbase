@@ -1,0 +1,10 @@
+INSERT INTO `photos` (`pID`, `dateTime`, `postID`, `userEmail`, `link`) VALUES ('NULL', '2019-06-12 12:39:41
+', NULL, 'firepants@gmail.com', 'https://upload.wikimedia.org/wikipedia/en/1/1b/Lemon_to_a_kinfe_fight.jpg')
+
+INSERT INTO `photos` (`pID`, `dateTime`, `postID`, `userEmail`, `link`) VALUES ('NULL', '2019-06-12 12:39:41
+', NULL, '	
+trial@trial.com', 'https://lh3.googleusercontent.com/proxy/iD4aFCvMFrgL8bu5-kq1aC61kBiqTJIJHRq0iUU-K32xgo2lbKAyVsS98ipuNb-EkxTYKNZTX4L4hXpfdQimEqHt2w1Y5PpXdUHE2oZ7E620ST6PtoHGdC_rti5ijg')
+
+INSERT INTO `photos` (`pID`, `dateTime`, `postID`, `userEmail`, `link`) VALUES ('NULL', '2019-06-12 12:39:41
+', NULL, '	
+12345@gmail.com', 'https://i.ytimg.com/vi/vvnGaXdtEP0/maxresdefault.jpg')

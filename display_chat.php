@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <title>Chat</title>
+</head>
+<body>
+
 <?php
     include 'connect.php';
     include "save_message.php";
@@ -15,7 +26,7 @@
     if (isset($_POST['text'])) {
         send();
     }
-    echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID'];
+    echo "You are logged in as ".$_SESSION['username']." in conversation cID ".$_SESSION['cID']."<p>";
 
     start_chat();
 ?>
@@ -59,7 +70,7 @@
         $result = $conn->query($sql);
     
         if ($result->num_rows > 0) {
-            echo "<table><tr><th class='border-class'>Messaging</th></tr>
+            echo "<table>
                 <tr><th class='border-class'>User</th>
                 <th class='border-class'>TimeSent</th>
                 <th class='border-class'>Message</th>
@@ -92,3 +103,7 @@
     cID: <input type="text" name="cID"  placeholder="5">
     <input type="submit" name="send" onClick>
 </form>
+
+</body>
+</html>
+
