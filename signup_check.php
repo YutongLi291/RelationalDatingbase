@@ -9,6 +9,7 @@ $password= $_POST['password'];
 $nickname = $_POST['nickname'];
 $age= $_POST['age'];
 $location= $_POST['location'];
+$profilephoto = $_POST['profile'];
 $description = $_POST['description'];
 
 $gender= $_POST['gender'];
@@ -20,6 +21,7 @@ echo $username."<br>".$firstname."<br>".$lastname."<br>".$password."<br>".$nickn
 $conn = OpenCon();
 
 $sql = "INSERT INTO users (email, firstName, lastName, nickName, description, age, location, password, gender, prefersGender, relationship) VALUES('$username', '$firstname', '$lastname', '$nickname', '$description', $age, '$location', '$password',  '$gender', '$preferredgender', '$relationship')";
+//$sqlprofilephoto = "INSERT INTO photos "
 
 if ($conn->query($sql) === TRUE) {
 
