@@ -9,16 +9,14 @@
 	</head>
 	<body>
 		<h1>Your Photo Feed</h1>
-		
+		<h3>refresh again to see changes</h3>
 	</body>
 </html>
 <?php
 	include 'connect.php';
 	include "save_photopost.php";
 	
-	/// NEED TO KNOW WHO IS LOGGED IN
-	
-	
+	/// NEED TO KNOW WHO IS LOGGED IN	
 	if (!isset($_SESSION['userEmail'])) {
 		session_start();
 		setCurrUser("bbbb@hotmail.com");
@@ -39,12 +37,14 @@
 	load_feed();
 
 	include 'react_photo.php';
-	if (empty($_GET['reacts'])) { echo "GET REACTS IS EMPTY";}
+	if (empty($_GET['reacts'])) {
+		//  echo "GET REACTS IS EMPTY";
+		 removeReact();
+	}
 	else{
-		echo "pID: ".$_GET['pID'];
-		echo "reaction: ".$_GET['reacts'];
-		echo "REACTS GET NOT EMPTY";
-		
+		// echo "pID: ".$_GET['pID'];
+		// echo "reaction: ".$_GET['reacts'];
+		// echo "REACTS GET NOT EMPTY";
 		react();
 		
         unset($_GET['reacts']);
@@ -61,8 +61,6 @@
 		$currUser = $_SESSION['userEmail'];
 		
 		// get name of matched users
-		
-		
 		$sql = "SELECT pictureposts.userEmail, pictureposts.dateTime as dt,city,province,picMood,link,firstName,lastName, pictureposts.postID  from pictureposts LEFT OUTER JOIN photos ON photos.postID = pictureposts.postID
 		,users, location where pictureposts.userEmail IN (SELECT secondUser as matches FROM usermatchescontains
 		WHERE firstUser = '$currUser'
@@ -101,10 +99,8 @@
 				
 				$reacttexts = "";
 				while($reactrow = $reacts->fetch_assoc()){
-					echo $reactrow["text"]; // delete
 					$reacttexts = $reactrow["firstName"]." ".$reactrow["lastName"]." ".$reactrow["text"].", ";
 				}
-				// $reacttexts = substr($reacttexts,0,-2);
 
 				// get photos related to curr postID
 				$sql = "SELECT * from photos WHERE postID = $postID";
@@ -136,7 +132,7 @@
 						<option value='happy'>Happy</option>
 					</select>
 					<input type='submit' name='react' onClick>
-					<input id="pID" name="pID" type="text" value=<?php echo "{$postID}"?>>
+					<input id="pID" name="pID" type="hidden" value=<?php echo "{$postID}"?>>
 				</form></tr>
 					<?php
 						
