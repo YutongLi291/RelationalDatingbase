@@ -13,17 +13,17 @@
         // find postID of next text post to post
         
         if (isset($_SESSION["postID"])) {
-            $_SESSION["postID"] += 1;
+            $_SESSION["postID"] -= 1;
 			} else {
             // this is only run if this is the first post the user is posting
             $sql =
-            "SELECT max(postID) as postID from textposts;";
+            "SELECT min(postID) as postID from pictureposts;";
 			
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
-                $_SESSION["postID"] = $row["postID"] + 1;
+                $_SESSION["postID"] = $row["postID"] - 1;
 				} else {
-                $_SESSION["postID"] = 1;
+                $_SESSION["postID"] = -1;
 			}
 		}
 		$city = $_POST["city"];
@@ -49,14 +49,22 @@
 		$currUser = $_SESSION['userEmail'];
 		
         
+		//insert photo(s)
+		$linkArray = explode("," $text);
+		foreach($linkArray as $url){
+			$sql = "INSERT INTO photos (dateTime, postID, userEmail,link) VALUES ((SELECT NOW()), $currPostID, $currUser, $url)";
+			$conn->query($sql);
+		}
+		
+		
 		
         // gets current time
         $sql = "SELECT NOW()";
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
         $currTime = $row['NOW()'];
-		
-        $sql = "INSERT INTO textposts (postID, location, userEmail, dateTime,textMood, content) VALUES ($currPostID, $locID, '$currUser', '$currTime', '$mood', '$text');";
+		//to do: change from textposts to picposts
+        $sql = "INSERT INTO pictureposts (postID, location, userEmail, dateTime,picMood) VALUES ($currPostID, $locID, '$currUser', '$currTime', '$mood');";
         run($conn,$sql);
 		unset($_POST['text']);
 	}

@@ -120,7 +120,7 @@
 
 
 <form method="POST" onAction="homefeed.php">
-	Image Link: <input type="text" name="text" size="50" placeholder="Paste link here">
+	Image Link(s): Separate with comma: <input type="text" name="text" size="50" placeholder="Paste link(s) here">
 	Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	City: <input type="text" name="city" size="15" placeholder="Vancouver">
 	<select id="province" name="province" >
