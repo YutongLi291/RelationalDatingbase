@@ -51,12 +51,34 @@ session_start();
 				    <label for="location">Location</label><br>
 					<select id="location" name="location" required>
 						<option value="" disabled selected>Select your option</option>
-					    <option value="0">Vancouver</option>
-					    <option value="1">Kelowna</option>
-					    <option value="2">Calgary</option>
-					    <option value="3">Arviat</option>
-					    <option value="4">Cornwall</option>
+					    <option value="0">Vancouver, BC</option>
+					    <option value="1">Kelowna, BC</option>
+					    <option value="2">Calgary, AB</option>
+					    <option value="3">Halifax, NS</option>
+					    <option value="4">Regina, SK</option>
+					    <option value="5">Hamilton, ON</option>
+					    <option value="6">Winnipeg, MB</option>
+					    <option value="7">Quebec, QC</option>
+					    <option value="8">Ottawa, ON</option>
+					    <option value="9">Burnaby, BC</option>
+						<option value="10">Toronto, ON</option>
+					    <option value="11">Edmonton, AB</option>
+					    <option value="12">Montreal, QC</option>
+					    <option value="13">Saskatoon, SK</option>
+					    <option value="14">Surrey, BC</option>
+					    <option value="15">Victoria, BC</option>
+					    <option value="16">Oshawa, ON</option>
+					    <option value="17">Saint John, MB</option>
+					    <option value="18">Charlottetown, PE</option>
+					    <option value="19">Yellowknife, NT</option>
+					    <option value="20">Lethbridge, AB</option>
+					    <option value="21">Whitehorse, YT</option>
+					    <option value="22">Moncton, NB</option>
+					    <option value="23">Windsor, ON</option>
+					    <option value="24">Iqaluit, NU</option>
 					</select><br>
+					<label>Profile Photo</label><br>
+					<input name="profilephoto" type="text" placeholder="Link to your profile photo"  required><br>
 				    <label>Description</label><br>
 				    <textarea name="description" rows="6" placeholder="Tell us a little bit about yourself" required></textarea><br>
 
