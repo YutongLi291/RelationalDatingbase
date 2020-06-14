@@ -24,5 +24,4 @@ if (mysqli_num_rows($result) == 1) {
 	$_SESSION["error"] = $error;
     header("location: signin.php");
 }
-
 ?>

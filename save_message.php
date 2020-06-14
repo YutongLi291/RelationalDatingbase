@@ -2,6 +2,9 @@
     include_once 'connect.php';
     session_start();
 
+    // send();
+    
+
     function run($obConn,$sql)
     {
         $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
@@ -30,8 +33,8 @@
             }
         }
 
-        $currUser = $_SESSION["userEmail"];
-        $currCID = $_SESSION["cID"];
+        $currUser = $_SESSION["username"];
+        echo "this is useremail". $_SESSION["username"];
         $currMeID = $_SESSION["meID"];
         $text = $_POST['text'];
 
@@ -43,5 +46,8 @@
 
         $sql = "INSERT INTO hasusermessages (meID, timeSent, text, userEmail, cID) VALUES ($currMeID, '$currTime', '$text', '$currUser', $currCID);";
         run($conn,$sql);
+        CloseCon($conn);
+
+        header("Location: display_chat.php");
     }
 ?>
