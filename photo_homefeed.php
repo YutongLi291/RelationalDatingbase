@@ -100,7 +100,9 @@
 				while ($photorow = $photos->fetch_assoc()){
 					$image = $photorow["link"];
 
+
 					$pic .= "<img src='".$image."' width = 35%/>";
+
 				}
 							
 				array_push($alreadySeen, $postID);
