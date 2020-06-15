@@ -81,19 +81,18 @@
             SELECT blockee from blocks where blocker='$userEmail'";
 
         // query differs based on user-set filters
+        // setting isGenderPref_sql based on button toggle
+        if (isset($_SESSION['show_all'])) {
+            $isGenderPref_sql="";
+        } else {
+            $isGenderPref_sql=" and u.gender='$genderPref' ";
+        }
 
         // if there are more than one potential matches, avoid showing the same profile twice in a row
-        if (isset($_SESSION['show_all'])) {
-            $matchesCount_sql = "SELECT count(*) from users u, photos p
-            where u.email!='$userEmail' and u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_sql.
-            ")";
-        } else {
-            $matchesCount_sql = "SELECT count(*) from users u, photos p
-            where u.email!='$userEmail' and u.profile_pic=p.pID and u.gender='$genderPref' and u.email NOT IN ("
-                .$alreadyMatched_sql.
-            ")";
-        }
+        $matchesCount_sql = "SELECT count(*) from users u, photos p
+        where u.email!='$userEmail' and u.profile_pic=p.pID ".$isGenderPref_sql." and u.email NOT IN ("
+            .$alreadyMatched_sql.
+        ")";
         if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1) {
             $previousEmail =$_SESSION['swipeeEmail'];
             $notDuplicate_sql = " and u.email!='$previousEmail' ";
@@ -101,13 +100,6 @@
             $notDuplicate_sql="";
         }
         
-
-        // setting isGenderPref_sql based on button toggle
-        if (isset($_SESSION['show_all'])) {
-            $isGenderPref_sql="";
-        } else {
-            $isGenderPref_sql=" and u.gender='$genderPref' ";
-        }
 
         $selectMatches_sql = 
         "SELECT * from users u, photos p
