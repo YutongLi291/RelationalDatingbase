@@ -12,7 +12,7 @@ $email = $_SESSION['userEmail'];
 $conn = OpenCon();
 
 $deactivatepassword = $_REQUEST['deactivatepassword'];
-echo $deactivatepassword;
+// echo $deactivatepassword;
 
 $matchpassword = "SELECT password FROM users WHERE email = '".$email."'";
 $result = $conn->query($matchpassword);
@@ -20,14 +20,15 @@ $result = $conn->query($matchpassword);
 if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$password = $row["password"];
-	echo $password;
+	// echo $password;
 
 	if($deactivatepassword == $password){
-		echo "password match";
+		//echo "password match";
 		$deactivateaccount = "DELETE FROM users WHERE email = '".$email."'";
 
 		if ($conn->query($deactivateaccount) === TRUE) {
-			echo "<br><br>USER DELETED";
+			// echo "<br><br>USER DELETED";
+			header("Location: signin.php");
 			
 		}else{
 			echo "Error: " . $deactivateaccount . "<br>" . $conn->error;
