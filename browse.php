@@ -128,6 +128,7 @@
         // matching profiles in regards to gender pref
         setGenderPref($userEmail);
         $genderPref = $_SESSION['genderPref'];
+        
 
 
         $alreadyMatched_sql = 
@@ -147,9 +148,15 @@
             $isGenderPref_sql=" and u.gender='$genderPref' ";
         }
 
+        if (isset($_SESSION['show_pic'])) {
+            $isPictureShow_sql=" JOIN photos p ON u.profile_pic=p.pID ";
+        } else {
+            $isPictureShow_sql="";
+        }
+
         // if there are more than one potential matches, avoid showing the same profile twice in a row
-        $matchesCount_sql = "SELECT count(*) from users u, photos p
-        where u.email!='$userEmail' and u.profile_pic=p.pID ".$isGenderPref_sql." and u.email NOT IN ("
+        $matchesCount_sql = "SELECT count(*) from users u ".$isPictureShow_sql."
+        where u.email!='$userEmail' ".$isGenderPref_sql." and u.email NOT IN ("
             .$alreadyMatched_sql.
         ")";
         if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1) {
@@ -161,8 +168,8 @@
             
 
         $selectMatches_sql = 
-        "SELECT * from users u, photos p
-        where u.email!='$userEmail' ".$notDuplicate_sql.$isGenderPref_sql." and u.profile_pic=p.pID and u.email NOT IN ("
+        "SELECT * from users u ".$isPictureShow_sql."
+        where u.email!='$userEmail' ".$notDuplicate_sql.$isGenderPref_sql." and u.email NOT IN ("
             .$alreadyMatched_sql.
         ")
         order by RAND() limit 1";
@@ -172,7 +179,7 @@
         $result = $conn->query($selectMatches_sql);
         if ($row = $result->fetch_assoc()) {
             // this is the lucky person!
-            $_SESSION['m_img_link'] = $row['link'];
+            if (isset($_SESSION['show_pic'])) $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
             $_SESSION['m_bio'] = $row['description'];
             $_SESSION['swipeeEmail']= $row['email'];
@@ -212,7 +219,7 @@
         
         <!-- profile picture -->
         <img id="browse_profilepic" class="center" src=<?php 
-        if (isset($_SESSION['m_img_link']))
+        if (isset($_SESSION['show_pic']))
             echo $_SESSION['m_img_link'];
             ?> >
         <!-- match name -->
@@ -227,6 +234,15 @@
         <p class="center"><?php
             if(isset($_SESSION['m_bio'])) echo $_SESSION['m_bio'];
         ?></p>
+
+        <!-- matches most recent text post -->
+        <?php
+        if (isset($_SESSION['show_recent_post'])) {
+            $sql = 
+            "SELECT * from textposts tp JOIN photoposts pp
+            where tp.userEmail='$matchEmail' and pp.userEmail='$matchEmail'";
+        }
+        ?>
 
         <!-- warning if match has more matches than average -->
         <p class="center"><?php
@@ -244,12 +260,6 @@
         <br>
     </form>
 
-    <!-- <form id="filter_form" action="profile_redirect.php" method="post" class="center">
-        <button type="submit" name="goto_profile" id="gotoProfileButton">
-            <?php
-            // echo "View ".$_SESSION['m_name']."'s Profile"; ?>
-    </button>
-    </form> -->
 
     <form id="filter_form" action="apply_filter.php" method="post" class="center">
         <button type="submit" id="toggleAllBrowseButton" name="apply_filter">
@@ -262,12 +272,12 @@
         </button>
         </form>
 
-        <form id="filter_form" action="toggle_recent_post.php" method="post" class="center">
-        <button type="submit" name="show_recent_post">
-            <?php if (isset($_SESSION['show_recent_post'])) {
-                echo "Hide Most Recent Post";
+        <form id="filter_form" action="toggle_profilepic.php" method="post" class="center">
+        <button type="submit" name="show_pic">
+            <?php if (isset($_SESSION['show_pic'])) {
+                echo "Hide Profile Picture";
             } else {
-                echo "Show Most Recent Post";
+                echo "Show Profile Picture";
             }
             ?>
         </button>
