@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
+    <br><br><br><br><br><br>
     <h1>Find Your Match!</h1>
     <p class="center">This select 'yes' to swipe right, 'no' to swipe left. 
         <br>
@@ -20,6 +21,7 @@
 
     <?php 
     include 'connect.php';
+    include 'header.php';
     session_start();
 
         // default starting account
