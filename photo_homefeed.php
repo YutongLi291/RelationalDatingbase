@@ -4,19 +4,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Photo Feed</title>
 		<link rel="stylesheet" href = "styles.css">
+	<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 	</head>
 	<body>
+	<br><br><br><br>
 		<h1>Your Photo Feed</h1>
 		<h4>refresh again to see changes to reacts</h4>
-		<form action="text_homefeed.php">
-			<input type="submit" value="Go to Text Feed" />
-		</form>
+		
 	</body>
 </html>
 <?php
 	include 'connect.php';
 	include "save_photopost.php";
-	
+	include 'header.php';
 
 	session_start();
 	if (!isset($_SESSION['userEmail'])) {
@@ -176,3 +176,4 @@
 	</select>
     <input type="submit" name="post" onClick>
 	</form>
+	

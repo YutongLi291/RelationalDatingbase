@@ -4,12 +4,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Text Feed</title>
 		<link rel="stylesheet" href = "styles.css">
+		<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 	</head>
 	<body>
+	<br><br><br><br>
 		<h1>Your Text Feed</h1>
-		<form action="photo_homefeed.php">
-			<input type="submit" value="Go to Photo Feed" />
-		</form>
+		
 		
 		
 	</body>
@@ -17,6 +17,7 @@
 <?php
 	include 'connect.php';
 	include "save_textpost.php";
+	 include 'header.php';
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	session_start();
@@ -155,6 +156,7 @@
 		}
 		
 		echo "</table>";
+		
 } else {echo "\n No posts yet... say hi :)";}
 CloseCon($conn);
 }
@@ -202,4 +204,5 @@ CloseCon($conn);
 		</select>
 		<input type="submit" name="post" onClick>
 		</form>
+		
 				
