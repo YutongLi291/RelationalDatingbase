@@ -11,7 +11,7 @@
 
 		$sql="DELETE FROM reactstextposts WHERE userEmail='$currUser' AND postID =$postID";
 		$conn->query($sql);	
-		header("Location: text_homefeed.php");		
+			
 	}
 
 

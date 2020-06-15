@@ -20,6 +20,7 @@
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	session_start();
+
 	if(isset($_SESSION['userEmail'])){
 	
 	}else{
@@ -28,6 +29,7 @@
 	}
 
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+
 	if (isset($_POST['text'])) {
         post();
         unset($_POST['text']);
@@ -43,6 +45,8 @@
 ?>
 <?php
 	include 'react_text.php';
+	
+	
 	if (empty($_GET['reacts'])) {
 		//  echo "GET REACTS IS EMPTY";
 		removeReact();
@@ -55,6 +59,14 @@
 		
         unset($_GET['reacts']);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
 	}
@@ -187,7 +199,7 @@ CloseCon($conn);
 		<option value="23">Windsor</option> 
 		<option value="6">Winnipeg</option> 
 		<option value="19">Yellowknife</option> 
-	</select>
-    <input type="submit" name="post" onClick>
-	</form>
-		
+		</select>
+		<input type="submit" name="post" onClick>
+		</form>
+				

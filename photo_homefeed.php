@@ -17,6 +17,7 @@
 	include 'connect.php';
 	include "save_photopost.php";
 	
+
 	session_start();
 	if (!isset($_SESSION['userEmail'])) {
         header("location: signin.php");
@@ -24,6 +25,7 @@
 
 
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+
 	if (isset($_POST['text'])) {
         post();
         unset($_POST['text']);
@@ -35,12 +37,12 @@
 	$result = $conn0->query($sql0);
 	$row = $result->fetch_assoc();
 	echo "You are logged in as ".$row["firstName"]." ".$row["lastName"]." (".$_SESSION['userEmail'].")";
-		
+	
 	load_feed();
-
+	
 	
 	function setCurrUser($currUser) {
-		$_SESSION['userEmail'] = $currUser;
+	$_SESSION['userEmail'] = $currUser;
 	}
 	
 	function load_feed() {
@@ -146,32 +148,32 @@
 	Post Image Links (Separate with semicolon(;), png only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
 	Current Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	<select id="city" name="city" >
-		<option value="" disabled selected>Select your city</option>
-		<option value="9">Burnaby</option>
-		<option value="2">Calgary</option>
-		<option value="18">Charlottetown</option>
-		<option value="11">Edmonton</option>
-		<option value="3">Halifax</option>
-		<option value="5">Hamilton</option>
-		<option value="24">Iqaluit</option>
-		<option value="1">Kelowna</option>
-		<option value="20">Lethbridge</option>
-		<option value="22">Moncton</option>
-		<option value="12">Montreal</option>
-		<option value="16">Oshawa</option>
-		<option value="8">Ottawa</option>
-		<option value="7">Quebec</option> 
-		<option value="4">Regina</option> 
-		<option value="17">Saint John</option> 
-		<option value="13">Saskatoon</option> 
-		<option value="14">Surrey</option>
-		<option value="10">Toronto</option> 
-		<option value="0">Vancouver</option> 
-		<option value="15">Victoria</option> 
-		<option value="21">Whitehorse</option> 
-		<option value="23">Windsor</option> 
-		<option value="6">Winnipeg</option> 
-		<option value="19">Yellowknife</option> 
+	<option value="" disabled selected>Select your city</option>
+	<option value="9">Burnaby</option>
+	<option value="2">Calgary</option>
+	<option value="18">Charlottetown</option>
+	<option value="11">Edmonton</option>
+	<option value="3">Halifax</option>
+	<option value="5">Hamilton</option>
+	<option value="24">Iqaluit</option>
+	<option value="1">Kelowna</option>
+	<option value="20">Lethbridge</option>
+	<option value="22">Moncton</option>
+	<option value="12">Montreal</option>
+	<option value="16">Oshawa</option>
+	<option value="8">Ottawa</option>
+	<option value="7">Quebec</option> 
+	<option value="4">Regina</option> 
+	<option value="17">Saint John</option> 
+	<option value="13">Saskatoon</option> 
+	<option value="14">Surrey</option>
+	<option value="10">Toronto</option> 
+	<option value="0">Vancouver</option> 
+	<option value="15">Victoria</option> 
+	<option value="21">Whitehorse</option> 
+	<option value="23">Windsor</option> 
+	<option value="6">Winnipeg</option> 
+	<option value="19">Yellowknife</option> 
 	</select>
     <input type="submit" name="post" onClick>
 	</form>

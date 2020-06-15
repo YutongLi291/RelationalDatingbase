@@ -45,11 +45,11 @@
 				    <label for="company"> Credit card company</label><br>
 					<select id="company" name="company" required>
 						<option value="" disabled selected>Select your option</option>
-					    <option value="0">Visa</option>
-					    <option value="1">Mastercard</option>
-					    <option value="2">American Express</option>
-					    <option value="3">Capital One</option>
-					    <option value="4">Chase</option>
+					    <option value="VISA">Visa</option>
+					    <option value="MASTERCARD">Mastercard</option>
+					    <option value="AMERICAN EXPRESS">American Express</option>
+					    <option value="CAPITAL ONE">Capital One</option>
+					    <option value="CHASE">Chase</option>
 					</select><br>
 				   	<label>Re-enter your email address</label><br>
 				    <input name="useremail" type="email" placeholder="Email address" require ><br><br>
