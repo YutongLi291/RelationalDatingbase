@@ -53,7 +53,7 @@
 		$linkArray = explode(";", $text);
 		$valid = 0;    ///IF NO PHOTOS ARE INSERTED
 		foreach($linkArray as $url){
-			if (endsWith($url, ".png")){
+			if (endsWith($url, ".png") || endsWith($url, ".png") || endsWith($url, ".tiff")){
 			$valid = 1;   //AT LEAST ONE PHOTO INSERTED
 			$sql = "INSERT INTO photos (dateTime, postID, userEmail,link) VALUES ((SELECT NOW()), $currPostID, '$currUser', '$url')";
 			run($conn,$sql);
