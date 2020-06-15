@@ -11,7 +11,7 @@
 
 		$sql="DELETE FROM reactspicposts WHERE userEmail='$currUser' AND postID =$postID";
 		$conn->query($sql);	
-		header("Location: photo_homefeed.php");		
+		
 	}
 
 
