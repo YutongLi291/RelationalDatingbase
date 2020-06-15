@@ -52,6 +52,7 @@
     }
 
     function setGenderPref($userEmail) {
+        $conn = OpenCon();
         if(!isset($_SESSION['genderPref'])) {
             $sql = "SELECT * from users where users.email = '$userEmail'";
             $result = $conn->query($sql);
@@ -87,14 +88,14 @@
             $selectMatches_sql = 
             "SELECT * from users u, photos p
             where u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_selectMatches_sql.
+                .$alreadyMatched_sql.
             ")
             order by RAND() limit 1";
         } else {
             $selectMatches_sql = 
             "SELECT * from users u, photos p
             where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_selectMatches_sql.
+                .$alreadyMatched_sql.
             ")
             order by RAND() limit 1";
         }
@@ -106,6 +107,7 @@
             $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
             $_SESSION['m_bio'] = $row['description'];
+            $_SESSION['swipeeEmail']= $row['email'];
             
             // notification in case only one choice left
             if ($_SESSION['swipeeEmail'] == $row['email']) {
