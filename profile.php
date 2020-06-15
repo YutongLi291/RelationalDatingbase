@@ -79,26 +79,27 @@ if(isset($_SESSION['userEmail'])){
 			echo "</div>";
 			echo "<div id='profileinfo'>";
 				echo "<div class='maxwidth profilebottom'>";
-				echo "<p><span class='profiletextvalue'> Age </span><span class='profiletextbold'>".$age."</span></p>";
-				if ($profilelocation->num_rows > 0) {
-					$exactlocation = $profilelocation->fetch_assoc();
-					echo "<p><span class='profiletextvalue'> Location </span><span class='profiletextbold'>".$exactlocation["city"].", ".$exactlocation["province"]."</span></p>";
-				}
-				else {
-					echo "0 results for location";
-				}
-				
-				echo "<p><span class='profiletextvalue'> Preferred gender </span><span class='profiletextbold'>".$gender."</span></p>";
+					echo "<p><span class='profiletextvalue'> Age </span><span class='profiletextbold'>".$age."</span></p>";
+					if ($profilelocation->num_rows > 0) {
+						$exactlocation = $profilelocation->fetch_assoc();
+						echo "<p><span class='profiletextvalue'> Location </span><span class='profiletextbold'>".$exactlocation["city"].", ".$exactlocation["province"]."</span></p>";
+					}
+					else {
+						echo "0 results for location";
+					}
+					
+					echo "<p><span class='profiletextvalue'> Preferred gender </span><span class='profiletextbold'>".$gender."</span></p>";
 
-				if ($profilerelationship->num_rows > 0) {
-					$therelationship = $profilerelationship->fetch_assoc();
-					echo "<p><span class='profiletextvalue'> Preferred relationship </span><span class='profiletextbold'>".$therelationship["description"]."</span></p>";
-				}
-				else {
-					echo "0 results for location";
-				}
-				
-				echo "<p><span class='profiletextvalue'> A little bit about myself:</p><p class='profiletextvalue'><i style='font-size:14px;'>\"".$description."\"</i></span></p>";
+					if ($profilerelationship->num_rows > 0) {
+						$therelationship = $profilerelationship->fetch_assoc();
+						echo "<p><span class='profiletextvalue'> Preferred relationship </span><span class='profiletextbold'>".$therelationship["description"]."</span></p>";
+					}
+					else {
+						echo "0 results for location";
+					}
+					
+					echo "<p><span class='profiletextvalue'> A little bit about myself:</p><p class='profiletextvalue'><i style='font-size:14px;'>\"".$description."\"</i></span></p>";
+					echo "<br><br><br><a href='profiledelete.php'><button class='deactivatebutton'> Deactivate my account </button></a>";
 				echo "</div>";
 			echo "</div>";
 		?>

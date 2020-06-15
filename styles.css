@@ -504,4 +504,30 @@ nav a{
 #profiledescription{
 	color:#555555;
 }
->>>>>>> ahaniesa
+
+.deactivatebutton{
+	background: #EA6557;
+	color: #fff;
+	width: 200px;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 500;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#deactivateform{
+	margin-top: 160px;
+	width: 100%;
+	text-align: center;
+}
+
+#deactivateform input{
+	width: 300px;
+	height:40px;
+	padding:10px;
+	border:none;
+	background: #eee;
+}

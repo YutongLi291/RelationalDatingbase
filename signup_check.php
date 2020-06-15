@@ -34,27 +34,27 @@ if ($conn->query($sql) === TRUE) {
 	if ($conn->query($sqlphoto) === TRUE) {
 
 		$getphotoid = "SELECT pID FROM photos WHERE userEmail = '$email'";
-			$photoresult = $conn->query($getphotoid);
-			echo $getphotoid;
-			if ($photoresult->num_rows > 0) {
-			$photorow = $photoresult->fetch_assoc();
-			$photoid = $photorow["pID"];
-			$insertphotoid = "UPDATE users SET profile_pic = '$photoid' WHERE email = '$email'";
-				echo $photoid;
-				if ($conn->query($insertphotoid) === TRUE) {
-					echo "inserted";
-					if ($membership == 'free'){
-						header("Location: signup_success.php");
-					}
-					else{
-						header("Location: creditcard.php");
-					}
-				}else{
-					echo "Error: " . $insertphotoid . "<br>" . $conn->error;
-				}		
+		$photoresult = $conn->query($getphotoid);
+		echo $getphotoid;
+		if ($photoresult->num_rows > 0) {
+		$photorow = $photoresult->fetch_assoc();
+		$photoid = $photorow["pID"];
+		$insertphotoid = "UPDATE users SET profile_pic = '$photoid' WHERE email = '$email'";
+			echo $photoid;
+			if ($conn->query($insertphotoid) === TRUE) {
+				echo "inserted";
+				if ($membership == 'free'){
+					header("Location: signup_success.php");
+				}
+				else{
+					header("Location: creditcard.php");
+				}
 			}else{
-				echo "0 results for photo ID";
-			}
+				echo "Error: " . $insertphotoid . "<br>" . $conn->error;
+			}		
+		}else{
+			echo "0 results for photo ID";
+		}
 	}
 	else{
 		echo "Error: " . $sqlphoto . "<br>" . $conn->error;
