@@ -104,12 +104,6 @@ if(isset($_SESSION['username'])){
 			echo "</div>";
         ?>
         
-        <form id="filter_form" action="block_user.php" method="post" class="center">
-            <?php 
-            // if user is blocked change to unblock this user
-            ?>
-        <input type="submit" name="blockButton" value="Block This User">
-        </form>
 
         <form id="filter_form" action="display_chat.php" method="post" class="center">
             <?php 
