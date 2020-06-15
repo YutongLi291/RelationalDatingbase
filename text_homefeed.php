@@ -1,5 +1,3 @@
-
-
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -22,14 +20,16 @@
 	/// NEED TO KNOW WHO IS LOGGED IN
 	
 	session_start();
-	
+
 	if(isset($_SESSION['userEmail'])){
-		
-		}else{
-		
-		
+	
+	}else{
+	// header("location: signin.php");
+		echo "not set";
 	}
-	//if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+
+	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
+
 	if (isset($_POST['text'])) {
         post();
         unset($_POST['text']);
