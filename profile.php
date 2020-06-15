@@ -97,7 +97,7 @@ if(isset($_SESSION['userEmail'])){
 				else {
 					echo "0 results for location";
 				}
-				
+				echo '<br /><a href="text_homefeed.php">page 1</a>';
 				echo "<p><span class='profiletextvalue'> A little bit about myself:</p><p class='profiletextvalue'><i style='font-size:14px;'>\"".$description."\"</i></span></p>";
 				echo "</div>";
 			echo "</div>";
