@@ -2,10 +2,10 @@
     include_once 'connect.php';
     
 	
-    function run($obConn,$sql)
-    {
-        $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
-	}
+    // function run($obConn,$sql)
+    // {
+    //     $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
+	// }
 	
 	
     function post() {

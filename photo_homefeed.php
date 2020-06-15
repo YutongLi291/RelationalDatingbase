@@ -17,12 +17,20 @@
 	include 'connect.php';
 	include "save_photopost.php";
 	
+	session_start();
 	/// NEED TO KNOW WHO IS LOGGED IN	
-	if(isset($_SESSION['userEmail'])){
-	
-}else{
-	header("location: signin.php");
-}
+	// if(isset($_SESSION['userEmail'])){
+	// 	// $_SESSION['userEmail']
+	// }else{
+	// header("location: signin.php");
+	// }
+
+	if (!isset($_SESSION['userEmail'])) {
+        session_start();
+        setCurrUser("bbbb@hotmail.com");
+    } 
+
+
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
 	if (isset($_POST['text'])) {
         post();
@@ -38,19 +46,20 @@
 		
 	load_feed();
 
-	include 'react_photo.php';
-	if (empty($_GET['reacts'])) {
-		//  echo "GET REACTS IS EMPTY";
-		 removeReact();
-	}
-	else{
-		// echo "pID: ".$_GET['pID'];
-		// echo "reaction: ".$_GET['reacts'];
-		// echo "REACTS GET NOT EMPTY";
-		react();
+	// include 'react_photo.php';
+
+	// if (empty($_GET['reacts'])) {
+	// 	 echo "GET REACTS IS EMPTY";
+	// 	//  removeReact();
+	// }
+	// else{
+	// 	echo "pID: ".$_GET['pID'];
+	// 	echo "reaction: ".$_GET['reacts'];
+	// 	echo "REACTS GET NOT EMPTY";
+	// 	// react();
 		
-        unset($_GET['reacts']);
-	}
+    //     // unset($_GET['reacts']);
+	// }
 
 	
 	function setCurrUser($currUser) {
@@ -124,8 +133,7 @@
 				?>
 
 			
-				<form onAction='photo_homefeed.php' method='GET'>
-					
+				<form action='react_photo.php' method='GET'>
 					<select id='reacts' name='reacts' >
 						<option value='' disabled selected>Select your option</option>
 						<option value="angry"?>Angry</option>
@@ -135,7 +143,7 @@
 						<option value='happy'>Happy</option>
 					</select>
 					<input type='submit' name='react' onClick>
-					<input id="pID" name="pID" type="hidden" value=<?php echo "{$postID}"?>>
+					<input name="pID" type="hidden" value=<?php echo $postID?>>
 				</form></tr>
 					<?php
 						
@@ -153,13 +161,6 @@
 	} else {echo "\n No posts yet... say hi :)";}
 	CloseCon($conn);
 }
-///TODO: REACT TO POSTS
-///SEPARATE BETWEEN TEXT AND PHOTO POSTS WHEN POSTING
-
-///POST ID IS NEGATIVE if Picture
-///Post ID IS POSITIVE IF TEXT
-
-
 
 ?>
 
@@ -197,4 +198,3 @@
 	</select>
     <input type="submit" name="post" onClick>
 	</form>
-		
