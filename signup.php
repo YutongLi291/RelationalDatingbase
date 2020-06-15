@@ -32,7 +32,7 @@ session_start();
 					<p id="signuptitle" style='margin-left: -10%;'> SIGN UP </p>
 					<p class="fieldsrequired"> All fields are required </p>
 					<label>Email</label><br>
-				    <input name="username" type="email" placeholder="Email address" required><br>
+				    <input name="email" type="email" placeholder="Email address" required><br>
 				    <label>First Name</label><br>
 				    <input name="firstname" type="text" placeholder="First name"  required><br>
 				    <label>Last Name</label><br>
