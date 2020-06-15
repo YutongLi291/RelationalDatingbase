@@ -16,27 +16,33 @@
     // default starting account
     if (!isset($_SESSION['userEmail'])) {
         session_start();
-        setCurrCID(5);
         setCurrUser("bbbb@hotmail.com");
     } 
-
-    if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
-    if (isset($_POST['cID'])) setCurrCID($_POST['cID']);
 
     if (isset($_POST['text'])) {
         send();
     }
     
+    setCurrCID();
 
-    echo "You are logged in as ".$_SESSION['userEmail']." in conversation cID ".$_SESSION['cID']."<p>";
+    echo "You are logged in as ".$_SESSION['userEmail'];
 
     start_chat();
 ?>
 
 <?php
-    function setCurrCID($currCID) {
-        $_SESSION['cID'] = $currCID;
+    // get current cID
+    function setCurrCID() {
+        $conn = OpenCon();
+        $matchEmail = $_POST['matchEmail'];
+        $userEmail = $_SESSION['userEmail'];
+        $sql= "SELECT cID from usermatchescontains 
+        where (firstUser='$userEmail' and secondUser='$matchEmail') OR
+        (firstUser='$matchEmail' and secondUser='$userEmail')";
+        $result = $conn->query($sql);
+        $_SESSION['cID'] = $result->fetch_assoc()['cID'];
     }
+
     function setCurrUser($currUser) {
         $_SESSION['userEmail'] = $currUser;
     }
@@ -135,11 +141,12 @@
     <button id="sendMessage" type="submit" name="send">Send Message</button>
 </form>
 
-<form method="POST" onAction="display_chat.php">
+<!-- account changer (testing) -->
+<!-- <form method="POST" onAction="display_chat.php">
     Your email: <input type="text" name="loginAs" placeholder="bbbbra@hotmail.com">
     cID: <input type="text" name="cID"  placeholder="5">
     <input type="submit" name="send" onClick>
-</form>
+</form> -->
 </body>
 </html>
 
