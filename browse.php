@@ -87,14 +87,14 @@
         if (isset($_SESSION['show_all'])) {
             $selectMatches_sql = 
             "SELECT * from users u, photos p
-            where u.profile_pic=p.pID and u.email NOT IN ("
+            where u.email!='$userEmail' and u.profile_pic=p.pID and u.email NOT IN ("
                 .$alreadyMatched_sql.
             ")
             order by RAND() limit 1";
         } else {
             $selectMatches_sql = 
             "SELECT * from users u, photos p
-            where u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
+            where u.email!='$userEmail' and u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
                 .$alreadyMatched_sql.
             ")
             order by RAND() limit 1";
