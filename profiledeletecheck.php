@@ -39,9 +39,3 @@ else{
 }
 
 ?>
-
-<!-- ALTER TABLE photos
-  ADD CONSTRAINT FK_Photos2
-  FOREIGN KEY (userEmail) 
-  REFERENCES users(email) 
-  ON DELETE CASCADE; -->
