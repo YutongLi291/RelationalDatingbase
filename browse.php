@@ -29,6 +29,10 @@
             setCurrUser("bbbbra@hotmail.com");
         } 
 
+        // if (!isset($_SESSION['left_swipes'])) {
+        //     $_SESSION['left_swipes'] = array();
+        // }
+    
         if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
         if (isset($_POST['cID'])) setCurrCID($_POST['cID']);
     
@@ -80,34 +84,21 @@
             UNION
             SELECT blockee from blocks where blocker='$userEmail'";
 
-        // query differs based on user-set filters
-        // setting isGenderPref_sql based on button toggle
         if (isset($_SESSION['show_all'])) {
-            $isGenderPref_sql="";
+            $selectMatches_sql = 
+            "SELECT * from users u, photos p
+            where u.email!='$userEmail' and u.profile_pic=p.pID and u.email NOT IN ("
+                .$alreadyMatched_sql.
+            ")
+            order by RAND() limit 1";
         } else {
-            $isGenderPref_sql=" and u.gender='$genderPref' ";
+            $selectMatches_sql = 
+            "SELECT * from users u, photos p
+            where u.email!='$userEmail' and u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
+                .$alreadyMatched_sql.
+            ")
+            order by RAND() limit 1";
         }
-
-        // if there are more than one potential matches, avoid showing the same profile twice in a row
-        $matchesCount_sql = "SELECT count(*) from users u, photos p
-        where u.email!='$userEmail' and u.profile_pic=p.pID ".$isGenderPref_sql." and u.email NOT IN ("
-            .$alreadyMatched_sql.
-        ")";
-        if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1) {
-            $previousEmail =$_SESSION['swipeeEmail'];
-            $notDuplicate_sql = " and u.email!='$previousEmail' ";
-        } else {
-            $notDuplicate_sql="";
-        }
-        
-
-        $selectMatches_sql = 
-        "SELECT * from users u, photos p
-        where u.email!='$userEmail' ".$notDuplicate_sql.$isGenderPref_sql." and u.profile_pic=p.pID and u.email NOT IN ("
-            .$alreadyMatched_sql.
-        ")
-        order by RAND() limit 1";
-
     
         // select match
         $result = $conn->query($selectMatches_sql);
@@ -126,16 +117,12 @@
             }
                
         } else {
-            unsetMatchInfo();
+            unset($_SESSION['m_img_link']);
+            unset($_SESSION['m_name']);
+            unset($_SESSION['swipeeEmail']);
+            unset($_SESSION['m_bio']);
         }
     }  
-
-    function unsetMatchInfo() {
-        unset($_SESSION['m_img_link']);
-        unset($_SESSION['m_name']);
-        unset($_SESSION['swipeeEmail']);
-        unset($_SESSION['m_bio']);
-    }
     ?>
 
 <!-- notification of actions -->
@@ -174,12 +161,12 @@
         <br>
     </form>
 
-    <!-- <form id="filter_form" action="browse_profile.php" method="post" class="center">
+    <form id="filter_form" action="profile_redirect.php" method="post" class="center">
         <button type="submit" name="goto_profile" id="gotoProfileButton">
             <?php
-            // echo "View ".$_SESSION['m_name']."'s Profile"; ?>
+            echo "View ".$_SESSION['m_name']."'s Profile"; ?>
     </button>
-    </form> -->
+    </form>
 
     <form id="filter_form" action="apply_filter.php" method="post" class="center">
         <button type="submit" id="toggleAllBrowseButton" name="apply_filter">
