@@ -20,10 +20,11 @@
 	include "save_photopost.php";
 	
 	/// NEED TO KNOW WHO IS LOGGED IN	
-	if (!isset($_SESSION['userEmail'])) {
-		session_start();
-		setCurrUser("bbbb@hotmail.com");
-	}
+	if(isset($_SESSION['userEmail'])){
+	
+}else{
+	header("location: signin.php");
+}
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
 	if (isset($_POST['text'])) {
         post();

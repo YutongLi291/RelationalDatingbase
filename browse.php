@@ -31,10 +31,6 @@
             setCurrUser("bbbbra@hotmail.com");
         } 
 
-        // if (!isset($_SESSION['left_swipes'])) {
-        //     $_SESSION['left_swipes'] = array();
-        // }
-    
         if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
         if (isset($_POST['cID'])) setCurrCID($_POST['cID']);
     
@@ -64,6 +60,63 @@
                 echo "<p class=\"center\">get user gender and genderPref error</p>";
             }
         }
+    }
+
+    // returns average# matches over all users
+    function getAvgMatches() {
+        $conn = OpenCon();
+        $avgMatch_sql = 
+        "SELECT avg(totalMatches) as average
+        from(
+            select email, sum(count) totalMatches
+               from (
+       
+               SELECT firstUser as email, COUNT(secondUser) as count
+               FROM usermatchescontains
+               GROUP BY firstUser
+               UNION ALL
+               SELECT secondUser as email, COUNT(firstUser) as count
+               FROM usermatchescontains
+               GROUP BY secondUser
+                   ) as hello
+            group by email
+            
+           ) as allUsers";
+        
+        $result = $conn->query($avgMatch_sql);
+        if ($row = $result->fetch_assoc()) {
+            return $row['average'];
+        } else {
+            echo "error";
+            return 0;
+        }
+        CloseConn($conn);
+    }
+
+    // returns number of matches to the given email
+    function getUserMatches($email) {
+        $conn = OpenCon();
+        $user_num_matches_sql = 
+        "SELECT sum(count) totalMatches
+        from (
+
+        SELECT COUNT(*) as count
+        FROM usermatchescontains
+        WHERE firstUser='$email'
+        UNION ALL
+        SELECT COUNT(*) as count
+        FROM usermatchescontains
+        WHERE secondUser='$email'
+        ) as hello";
+
+        $result = $conn->query($user_num_matches_sql);
+        if ($row = $result->fetch_assoc()) {
+            return $row['totalMatches'];
+        } else {
+            echo "error";
+            return 0;
+        }
+        CloseConn($conn);
     }
 
     function getMatch() {
@@ -157,18 +210,28 @@
             if(isset($_SESSION['m_bio'])) echo $_SESSION['m_bio'];
         ?></p>
 
+        <!-- warning if match has more matches than average -->
+        <p class="center"><?php
+            $average = getAvgMatches();
+            $matchMatches = getUserMatches($_SESSION['swipeeEmail']);
+            echo "This user has ".$matchMatches." matche(s) while the average is ".$average.".";
+            if ($average < $matchMatches) {
+                echo "Watch out, this user has an above average number of matches!";
+            }
+        ?></php>
+
         <br>
         <button id="swipeRightButton" class="center" type="submit" name="match" >Swipe Right</button>
         <button id="swipeLeftButton" class="center" type="submit" name="no_match">Random</button>
         <br>
     </form>
 
-    <form id="filter_form" action="profile_redirect.php" method="post" class="center">
+    <!-- <form id="filter_form" action="profile_redirect.php" method="post" class="center">
         <button type="submit" name="goto_profile" id="gotoProfileButton">
             <?php
-            echo "View ".$_SESSION['m_name']."'s Profile"; ?>
+            // echo "View ".$_SESSION['m_name']."'s Profile"; ?>
     </button>
-    </form>
+    </form> -->
 
     <form id="filter_form" action="apply_filter.php" method="post" class="center">
         <button type="submit" id="toggleAllBrowseButton" name="apply_filter">

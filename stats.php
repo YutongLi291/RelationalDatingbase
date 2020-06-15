@@ -20,7 +20,25 @@
             $result = $conn->query($sql);
             $numUsers = $result->fetch_assoc()['count(*)'];
             echo "<p>Number of Users Registered: {$numUsers}</p>";
-            
+			
+			//FIND USER With the MOST MATCHES
+			$sql = "								
+            SELECT firstName, lastName FROM users,
+            (SELECT user FROM (SELECT firstuser user  FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u01
+            WHERE user 
+            NOT IN 
+            (SELECT u1.user FROM 
+			(SELECT count(user) count, user FROM(SELECT firstuser user  FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u11 GROUP BY user ) u1
+			CROSS JOIN
+			(SELECT count(user) count, user FROM (SELECT firstuser user FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u21 GROUP BY user) u2
+			where u1.count < u2.count
+             )) as topusers WHERE users.email = topusers.user
+			";
+			$result = $conn->query($sql);
+			$topuser = $result->fetch_assoc();
+            echo "User with the most matches: ".$topuser['firstName']." ".$topuser['lastName']." (Watch out for this person)";
+			
+			
 		?>
         
 		
