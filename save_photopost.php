@@ -53,11 +53,13 @@
 		$linkArray = explode(";", $text);
 		$valid = 0;    ///IF NO PHOTOS ARE INSERTED
 		foreach($linkArray as $url){
-			if (endsWith($url, ".png") || endsWith($url, ".png") || endsWith($url, ".tiff")){
+			//if (endsWith($url, ".png") || endsWith($url, ".png") || endsWith($url, ".tiff")){
+			if(is_array(getimagesize($url))){
 			$valid = 1;   //AT LEAST ONE PHOTO INSERTED
 			$sql = "INSERT INTO photos (dateTime, postID, userEmail,link) VALUES ((SELECT NOW()), $currPostID, '$currUser', '$url')";
 			run($conn,$sql);
 			}
+			//}
 		}
 		if ($valid == 0){   //IF NO PHOTOS ARE INSERTED
 		$sql = "DELETE FROM pictureposts WHERE postID = $currPostID";
