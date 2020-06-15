@@ -99,7 +99,12 @@
 				$pic = "";
 				while ($photorow = $photos->fetch_assoc()){
 					$image = $photorow["link"];
+<<<<<<< HEAD
 					$pic .= "<img src='".$image."' width = 35%/>";
+=======
+					$imageData = base64_encode(file_get_contents($image));
+					$pic .= '<img src="' .$image.' "width = 35%>';
+>>>>>>> ahaniesa
 				}
 							
 				array_push($alreadySeen, $postID);
