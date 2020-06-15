@@ -4,7 +4,7 @@ session_start();
 include 'connect.php';
 $conn = OpenCon();
 
-$username = $_REQUEST['username'];
+$userEmail = $_REQUEST['userEmail'];
 $password = $_REQUEST['password'];
 $error = "Username/password is incorrect";
 
@@ -12,12 +12,12 @@ $error = "Username/password is incorrect";
 // 	echo $username." ".$password;
 // }
 
-$query = "SELECT * FROM users WHERE email = '". $username ."' AND password = '". $password ."'" ;
+$query = "SELECT * FROM users WHERE email = '". $userEmail ."' AND password = '". $password ."'" ;
 $result = $conn->query($query);
 
 //echo mysqli_num_rows($result); TO TEST THE NUMBER OF ROWS OUTPUTTED
 if (mysqli_num_rows($result) == 1) {
-	$_SESSION["username"] = $username;
+	$_SESSION["userEmail"] = $userEmail;
 	header("Location: profile.php");
 } else {
 	$_SESSION["error"] = $error;

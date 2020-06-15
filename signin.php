@@ -16,8 +16,6 @@ session_start();
 		<?php
 		include 'connect.php';
 		$conn = OpenCon();
-		$sql = "SELECT * from users";
-		$result = $conn->query($sql);
 		?>
 		<nav> 
 			<p> RELATIONAL DATINGBASE</p>
@@ -30,12 +28,12 @@ session_start();
 				
 				<form id="signinform" onsubmit="" action="signin_check.php" method="post">
 					<p id="signintitle"> SIGN IN </p><br>
-				    <input name="username" type="text" placeholder="Email address">
+				    <input name="userEmail" type="Email" placeholder="Email address">
 				    <br>
 				    <input name="password" type="text" placeholder="Password">
 				        <br>
 				        <br>
-				    <button type="submit" name="signinbutton" value="submit" id="signinbutton"> SIGN IN</button>
+				    <button type="submit" name="signinbutton" id="signinbutton"> SIGN IN</button>
 				    <br><br>
 				    <?php
 		                if(isset($_SESSION["error"])){
@@ -44,9 +42,13 @@ session_start();
 		                }
 		            ?>  
 		            <br><br><br>
-		            <p style='text-align: center;'> Don't have an account yet? <a href="signup.php" id="signinsignup">SIGN UP &#8594;</a> </p>
+		            <p style='text-align: center;'> Don't have an account yet? 
+		            	<a href="signup.php" id="signinsignup">
+		            		SIGN UP &#8594;
+		            	</a> 
+		        	</p>
 				</form>
-			<div>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['username'])){
+if(isset($_SESSION['userEmail'])){
 	
 }else{
 	header("location: signin.php");
@@ -21,7 +21,7 @@ if(isset($_SESSION['username'])){
 		<?php
 			include 'connect.php';
 			include 'header.php';
-			$email = $_SESSION['username'];
+			$email = $_SESSION['userEmail'];
 
 			$conn = OpenCon();
 			$sql = "SELECT * FROM users WHERE email ='". $email ."'";
