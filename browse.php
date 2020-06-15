@@ -131,30 +131,43 @@
 
 
         $alreadyMatched_sql = 
-            "SELECT secondUser from usermatchescontains
-            where firstUser='$userEmail'
-            UNION
-            SELECT firstUser from usermatchescontains
-            where secondUser='$userEmail'
-            UNION
-            SELECT blockee from blocks where blocker='$userEmail'";
+        "SELECT secondUser from usermatchescontains
+        where firstUser='$userEmail'
+        UNION
+        SELECT firstUser from usermatchescontains
+        where secondUser='$userEmail'
+        UNION
+        SELECT blockee from blocks where blocker='$userEmail'";
 
+        // query differs based on user-set filters
+        // setting isGenderPref_sql based on button toggle
         if (isset($_SESSION['show_all'])) {
-            $selectMatches_sql = 
-            "SELECT * from users u, photos p
-            where u.email!='$userEmail' and u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_sql.
-            ")
-            order by RAND() limit 1";
+            $isGenderPref_sql="";
         } else {
-            $selectMatches_sql = 
-            "SELECT * from users u, photos p
-            where u.email!='$userEmail' and u.gender='$genderPref' and u.profile_pic=p.pID and u.email NOT IN ("
-                .$alreadyMatched_sql.
-            ")
-            order by RAND() limit 1";
+            $isGenderPref_sql=" and u.gender='$genderPref' ";
         }
-    
+
+        // if there are more than one potential matches, avoid showing the same profile twice in a row
+        $matchesCount_sql = "SELECT count(*) from users u, photos p
+        where u.email!='$userEmail' and u.profile_pic=p.pID ".$isGenderPref_sql." and u.email NOT IN ("
+            .$alreadyMatched_sql.
+        ")";
+        if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1) {
+            $previousEmail =$_SESSION['swipeeEmail'];
+            $notDuplicate_sql = " and u.email!='$previousEmail' ";
+        } else {
+            $notDuplicate_sql="";
+        }
+            
+
+        $selectMatches_sql = 
+        "SELECT * from users u, photos p
+        where u.email!='$userEmail' ".$notDuplicate_sql.$isGenderPref_sql." and u.profile_pic=p.pID and u.email NOT IN ("
+            .$alreadyMatched_sql.
+        ")
+        order by RAND() limit 1";
+
+
         // select match
         $result = $conn->query($selectMatches_sql);
         if ($row = $result->fetch_assoc()) {
@@ -170,15 +183,20 @@
             } else {
                 $_SESSION['swipeeEmail'] = $row['email'];
             }
-               
+            
         } else {
-            unset($_SESSION['m_img_link']);
-            unset($_SESSION['m_name']);
-            unset($_SESSION['swipeeEmail']);
-            unset($_SESSION['m_bio']);
+            unsetMatchInfo();
         }
-    }  
-    ?>
+    }
+    
+    function unsetMatchInfo() {
+        unset($_SESSION['m_img_link']);
+        unset($_SESSION['m_name']);
+        unset($_SESSION['swipeeEmail']);
+        unset($_SESSION['m_bio']);
+    }
+
+?>
 
 <!-- notification of actions -->
     <p class ="center"><?php 
@@ -243,5 +261,17 @@
             ?>
         </button>
         </form>
+
+        <form id="filter_form" action="toggle_recent_post.php" method="post" class="center">
+        <button type="submit" name="show_recent_post">
+            <?php if (isset($_SESSION['show_recent_post'])) {
+                echo "Hide Most Recent Post";
+            } else {
+                echo "Show Most Recent Post";
+            }
+            ?>
+        </button>
+        </form>
+
 </body>
 </html>
