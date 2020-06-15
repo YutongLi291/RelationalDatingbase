@@ -1,6 +1,6 @@
 <?php
     include_once 'connect.php';
-    session_start();
+    
 	
     function run($obConn,$sql)
     {
