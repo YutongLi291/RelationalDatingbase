@@ -18,16 +18,8 @@
 	include "save_photopost.php";
 	
 	session_start();
-	/// NEED TO KNOW WHO IS LOGGED IN	
-	// if(isset($_SESSION['userEmail'])){
-	// 	// $_SESSION['userEmail']
-	// }else{
-	// header("location: signin.php");
-	// }
-
 	if (!isset($_SESSION['userEmail'])) {
-        session_start();
-        setCurrUser("bbbb@hotmail.com");
+        header("location: signin.php");
     } 
 
 
@@ -45,21 +37,6 @@
 	echo "You are logged in as ".$row["firstName"]." ".$row["lastName"]." (".$_SESSION['userEmail'].")";
 		
 	load_feed();
-
-	// include 'react_photo.php';
-
-	// if (empty($_GET['reacts'])) {
-	// 	 echo "GET REACTS IS EMPTY";
-	// 	//  removeReact();
-	// }
-	// else{
-	// 	echo "pID: ".$_GET['pID'];
-	// 	echo "reaction: ".$_GET['reacts'];
-	// 	echo "REACTS GET NOT EMPTY";
-	// 	// react();
-		
-    //     // unset($_GET['reacts']);
-	// }
 
 	
 	function setCurrUser($currUser) {
