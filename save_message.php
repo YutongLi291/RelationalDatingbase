@@ -1,18 +1,22 @@
 <?php
     include_once 'connect.php';
     session_start();
+    sendMessage();
+    echo "message has been sent";
+    header("Location: display_chat.php");
 
-    // send();
-    
+?>
 
+<?php
     function run($obConn,$sql)
     {
         $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
     }
 
 // pre: $_POST['text'] is set.
-    function send() {
+    function sendMessage() {
         $conn = OpenCon();
+
         // find messageID of next message to send
         $currCID = $_SESSION['cID'];
         if (isset($_SESSION["meID"])) {
@@ -33,10 +37,12 @@
             }
         }
 
-        $currUser = $_SESSION["username"];
-        echo "this is useremail". $_SESSION["username"];
+        $currUser = $_SESSION["userEmail"];
         $currMeID = $_SESSION["meID"];
+
+        // check for ' and replace with \'
         $text = $_POST['text'];
+        $text = str_replace("'", "\'", $text);
 
         // gets current time
         $sql = "SELECT NOW()";
@@ -47,7 +53,5 @@
         $sql = "INSERT INTO hasusermessages (meID, timeSent, text, userEmail, cID) VALUES ($currMeID, '$currTime', '$text', '$currUser', $currCID);";
         run($conn,$sql);
         CloseCon($conn);
-
-        header("Location: display_chat.php");
     }
 ?>

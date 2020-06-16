@@ -10,22 +10,22 @@
 <body>
 
 <?php
+    session_start();
+
     include 'connect.php';
-    include "save_message.php";
 
     // default starting account
     if (!isset($_SESSION['userEmail'])) {
         session_start();
         setCurrUser("bbbb@hotmail.com");
     } 
-
-    if (isset($_POST['text'])) {
-        send();
-    }
     
+    // sets match email if coming from match profile
+    if (isset($_POST['matchEmail'])) $_SESSION['matchEmail'] = $_POST['matchEmail'];
+
     setCurrCID();
 
-    echo "You are logged in as ".$_SESSION['userEmail'];
+    echo "<p>You are logged in as: ".$_SESSION['userEmail'];
 
     start_chat();
 ?>
@@ -34,7 +34,7 @@
     // get current cID
     function setCurrCID() {
         $conn = OpenCon();
-        $matchEmail = $_POST['matchEmail'];
+        $matchEmail = $_SESSION['matchEmail'];
         $userEmail = $_SESSION['userEmail'];
         $sql= "SELECT cID from usermatchescontains 
         where (firstUser='$userEmail' and secondUser='$matchEmail') OR
@@ -73,9 +73,8 @@
                 users AS u,
                 usermatchescontains AS umc
             WHERE
-                u.email != '$currUser' AND umc.cID = $currCID AND(
-                    u.email = umc.firstUser OR u.email = umc.secondUser
-                )";
+                u.email != '$currUser' AND umc.cID = $currCID AND (
+                    u.email = umc.firstUser OR u.email = umc.secondUser)";
         $result = $conn->query($sql);
         if ($row = $result->fetch_assoc()) {
             $partnerName = $row["firstname"]." ".$row["lastname"];
@@ -133,12 +132,11 @@
         "<p>".$row["text"]."</p>".
         "<span class=\"".$timeSide."\">".$row["timeSent"]."</span></div>";
     }
-
 ?>
 
-<form method="POST" onAction="save_message.php">
+<form method="POST" action="save_message.php">
     Type Here: <input type="text" name="text" size="70%" placeholder="type here">
-    <button id="sendMessage" type="submit" name="send">Send Message</button>
+    <button name="send" type="submit">Send</button>
 </form>
 
 <!-- account changer (testing) -->
