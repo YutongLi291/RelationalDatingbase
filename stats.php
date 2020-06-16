@@ -65,6 +65,8 @@
 		   $result = $conn->query($sql);
 		   $avgmatches = $result->fetch_assoc();
 		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
+		   
+		   ////
 			
 		?>
         
