@@ -295,7 +295,7 @@ nav a{
 }
 
 /* ===============================================
-		BROWSE
+			BROWSE
 ================================================== */
 
 #browse_profilepic{
@@ -312,7 +312,7 @@ nav a{
 }
 
 #swipeRightButton {
-	background: #52d154;
+	background: #33C29C;
 	color: #fff;
 	width: 40%;
 	border: none;
@@ -354,8 +354,8 @@ nav a{
 }
 
 #toggleAllBrowseButton {
-	background: rgb(160, 160, 160);
-	color: #fff;
+	background: #dedede;
+	color: #333;
 	width: 100%;
 	border: none;
 	height: 40px;
@@ -367,7 +367,53 @@ nav a{
 	margin-top: 10px;
 }
 
-	
+#hidephoto{
+	height: 40px;
+	padding: 5px 20px;
+	background: none;
+	border:solid 1px #777;
+	color:#333;
+	border-radius:8px;
+	margin-top: 30px;
+	cursor: pointer;
+}
+
+
+/* ===============================================
+			MY MATCHES
+================================================== */
+
+.mymatch{
+	width: 100%;
+	text-align: center;
+	background:#FEEFEC;
+	margin:10px 0;
+	cursor: pointer;
+}
+
+.mymatch input{
+	border: none;
+	width: 100%;
+	background: none;
+	font-weight: 600;
+	font-size:16px;
+	color:#444;
+	height:80px;
+	cursor: pointer;
+}
+
+.messagethishuman{
+	height: 40px;
+	padding: 5px 30px;
+	border:none;
+	background: #EA6557;
+	color: #fff;
+	border-radius: 10px;
+	margin-top: 40px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
 /* ===============================================
 	DISPLAY CHAT
 ================================================== */
@@ -442,7 +488,7 @@ nav a{
 
 #profilecover{
 	height: 300px;
-	background-image: linear-gradient(to bottom, #aaaaaa, #f7f7f7);
+	background-image: linear-gradient(to bottom, #F9D2C9, #f7f7f7);
 	width: 100%;
 	margin:0;
 	padding:0;
@@ -480,13 +526,14 @@ nav a{
 #profileinfo{
 	width: 100%;
 	margin:0;
+	background: #f7f7f7;
 }
 
 .profilebottom{
-	background:#f7f7f7;
 	height: 100%;
 	padding: 30px;
 	padding-left: 60px;
+	background: #f7f7f7;
 }
 
 .profiletextvalue{
@@ -505,6 +552,31 @@ nav a{
 	color:#555555;
 }
 
+.profilelocation{
+	padding: 40px 0;
+	width: 100%;
+	text-align: center;
+}
+
+.citylist{
+	margin: 0 30px;
+	color:#333;
+}
+
+#province{
+	width:200px;
+	height: 40px;
+	padding: 8px;
+	border: none;
+	background: #ccc;
+	font-weight: 500;
+}
+
+.profiledeactivate{
+	background: #dedede;
+	text-align: center;
+}
+
 .deactivatebutton{
 	background: #EA6557;
 	color: #fff;
@@ -515,7 +587,6 @@ nav a{
 	border-radius: 50px;
 	font-weight: 500;
 	cursor: pointer;
-	margin-top: 10px;
 }
 
 #deactivateform{

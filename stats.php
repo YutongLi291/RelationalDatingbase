@@ -38,6 +38,35 @@
 			$topuser = $result->fetch_assoc();
             echo "User with the most matches: ".$topuser['firstName']." ".$topuser['lastName']." (Watch out for this person)";
 			
+			///NUMBER OF TOTAL MESSAGES SENT
+			
+			$sql = "SELECT count(*) as count from hasusermessages";
+			$result = $conn->query($sql);
+			$totalmessages = $result->fetch_assoc();
+			echo "<p>Total number of messages sent: " .$totalmessages['count']. "</p>";
+			
+			 /// AVERAGE number of MATCHES found
+			$sql = " SELECT avg(totalMatches) as average
+        from(
+            select email, sum(count) totalMatches
+               from (
+       
+               SELECT firstUser as email, COUNT(secondUser) as count
+               FROM usermatchescontains
+               GROUP BY firstUser
+               UNION ALL
+               SELECT secondUser as email, COUNT(firstUser) as count
+               FROM usermatchescontains
+               GROUP BY secondUser
+                   ) as hello
+            group by email
+            
+           ) as allUsers";
+		   $result = $conn->query($sql);
+		   $avgmatches = $result->fetch_assoc();
+		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
+		   
+		   ////
 			
 		?>
         

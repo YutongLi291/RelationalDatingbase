@@ -100,8 +100,10 @@
         <form id="filter_form" action="display_chat.php" method="post" class="center">
             <?php 
             ?>
+
         <input type="submit" name="openChatButton" value="Message This Human?">
         <input type="hidden" name="matchEmail" value=<?php echo $_SESSION['matchEmail']?>>
+
         </form>
             
 	</body>

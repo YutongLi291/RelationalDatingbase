@@ -99,9 +99,63 @@ if(isset($_SESSION['userEmail'])){
 					}
 
 					echo "<p><span class='profiletextvalue'> A little bit about myself:</p><p class='profiletextvalue'><i style='font-size:14px;'>\"".$description."\"</i></span></p>";
-					echo "<br><br><br><a href='profiledelete.php'><button class='deactivatebutton'> Deactivate my account </button></a>";
+					
 				echo "</div>";
 			echo "</div>";
-		?>
+			echo "<div class='profilelocation'>";
+				echo "<p> We are continuously expanding. <br> Today, these are the cities in <span>".$exactlocation["province"]."</span> that we are currently operating in:</p><br>";
+					$cities= "SELECT city FROM location WHERE province ='". $exactlocation["province"] ."'";
+					$citiesresult= $conn->query($cities);
+					if ($citiesresult->num_rows > 0) {
+						while($citylist = $citiesresult->fetch_assoc()){
+							echo "<b class='citylist'> ".$citylist["city"]."</b>";
+						}
+						echo "<br>";
+					}
+					else {
+						echo "We do not have any location in this province yet.";
+					}
+				echo "<br>";
+
+				echo "<form action='profilelocationcheck.php' method='post' id='locationdropdown' name='provincecheck' target='_blank'>";
+					echo "<p> Select province to find out where else we are operating in Canada </p>";
+					//onchange is javascript code. Provincecheck refers to the name of the form.
+					echo "<select id='province' name='citylocation' onchange='provincecheck.submit();'>
+						<option value='' disabled selected>Select province</option>
+					    <option value='AB' ". (($exactlocation["province"] == 'AB')? "disabled":"").">AB</option>
+					    <option value='BC' ". (($exactlocation["province"] == 'BC')? "disabled":"").">BC</option>
+					    <option value='MB' ". (($exactlocation["province"] == 'MB')? "disabled":"").">MB</option>
+					    <option value='NB' ". (($exactlocation["province"] == 'NB')? "disabled":"").">NB</option>
+					    <option value='NL' ". (($exactlocation["province"] == 'NL')? "disabled":"").">NL</option>
+					    <option value='NS' ". (($exactlocation["province"] == 'NS')? "disabled":"").">NS</option>
+					    <option value='NT' ". (($exactlocation["province"] == 'NT')? "disabled":"").">NT</option>
+					    <option value='NU' ". (($exactlocation["province"] == 'NU')? "disabled":"").">NU</option>
+					    <option value='ON' ". (($exactlocation["province"] == 'ON')? "disabled":"").">ON</option>
+					    <option value='PE' ". (($exactlocation["province"] == 'PE')? "disabled":"").">PE</option>
+					    <option value='QC' ". (($exactlocation["province"] == 'QC')? "disabled":"").">QC</option>
+						<option value='SK' ". (($exactlocation["province"] == 'SK')? "disabled":"").">SK</option>
+					    <option value='YT' ". (($exactlocation["province"] == 'YT')? "disabled":"").">YT</option>";
+					echo "</select><br>";
+				echo "</form><br><br>";
+
+				if(isset($_SESSION["cities"])){
+                    $citiestodisplay = $_SESSION["cities"];
+                    $citiesresult= $conn->query($citiestodisplay);
+                    echo "<span>".$_SESSION["province"]."</span><br><br>";
+                    if ($citiesresult->num_rows > 0) {
+						while($morecitylist = $citiesresult->fetch_assoc()){
+							echo "<b class='citylist'> ".$morecitylist["city"]."</b>";
+						}
+					}
+					else {
+						echo "We do not have any location in this province yet.";
+					}
+					unset($_SESSION["cities"]);
+                }
+			?>
+			</div>
+			<div class="profiledeactivate">
+				<br><br><br><a href='profiledelete.php'><button class='deactivatebutton'> Deactivate my account </button></a><br><br><br><br>
+			</div>
 	</body>
 </html>
