@@ -248,9 +248,9 @@
         <p class="center"><?php
             $average = getAvgMatches();
             $matchMatches = getUserMatches($_SESSION['swipeeEmail']);
-            echo "This user has ".$matchMatches." matche(s) while the average is ".$average.".";
+            echo "This user has ".$matchMatches." match(es) while the average is ".$average.".";
             if ($average < $matchMatches) {
-                echo "Watch out, this user has an above average number of matches!";
+                echo "<br>Watch out, this user has an above average number of matches!";
             }
         ?></php>
 
@@ -273,7 +273,7 @@
         </form>
 
         <form id="filter_form" action="toggle_profilepic.php" method="post" class="center">
-        <button type="submit" name="show_pic">
+        <button type="submit" name="show_pic" id="hidephoto">
             <?php if (isset($_SESSION['show_pic'])) {
                 echo "Hide Profile Picture";
             } else {
@@ -282,6 +282,7 @@
             ?>
         </button>
         </form>
+        <br><br><br><br>
 
 </body>
 </html>

@@ -9,10 +9,11 @@
 	</head>
 	<body>
 
-    <h1> THIS IS MY MATCHES </h1>
-    <h3>Name</h3>
+    <h1 style="margin-top:140px;"> MY MATCHES </h1><br>
+    <!-- <h3>Name</h3> -->
 		<?php
 			include 'connect.php';
+            include 'header.php';
             $conn = OpenCon();
             session_start();
             
@@ -32,15 +33,14 @@
                 // display name and profile
                 $matchName="{$row["firstName"]}-{$row["lastName"]}";
                 $matchEmail="{$row["email"]}";
-                echo "<tr><td class='border-class'>
+                echo "<tr><td class='mymatchrow'>
                 
-                <form method=\"post\" action=\"match_profile.php\">
+                <form method=\"post\" action=\"match_profile.php\" class='mymatch'>
                     <input type=\"submit\" value={$matchName} name=\"viewProfileButton\" onClick>
                     <input name=\"matchEmail\" type=\"hidden\" value=$matchEmail>
                     <td class='border-class'></td></tr>
                 </form>
-                </td>"
-                ;
+                </td></tr>";
             }   
 		?>
 
