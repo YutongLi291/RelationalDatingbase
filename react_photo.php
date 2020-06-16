@@ -3,19 +3,12 @@
 	session_start();
 
 	if (empty($_GET['reacts'])) {
-		 echo "GET REACTS IS EMPTY";
-		 removeReact();
-	}
-	else{
-		echo "pID: ".$_GET['pID'];
-		echo "reaction: ".$_GET['reacts'];
-		echo "REACTS GET NOT EMPTY";
+		removeReact();
+	} else {
 		react();
-		
 	}
 
 	header("Location: photo_homefeed.php");	
-
 
 	function removeReact() {
 		$conn = OpenCon();

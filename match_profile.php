@@ -1,13 +1,4 @@
-<?php
-session_start();
-if(isset($_SESSION['userEmail'])){
-	
-}else{
-	header("location: signin.php");
-}
-?>
-
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="en">
 	<head>
 	    <meta charset="UTF-8">
@@ -21,7 +12,8 @@ if(isset($_SESSION['userEmail'])){
 		<?php
 			include 'connect.php';
 			include 'header.php';
-            $email = $_POST['matchEmail'];
+			$email = $_POST['matchEmail'];
+			$_SESSION['matchEmail'] = $email;
             // echo "<p>{$email}</p>";
 
 			$conn = OpenCon();
@@ -108,10 +100,11 @@ if(isset($_SESSION['userEmail'])){
         <form id="filter_form" action="display_chat.php" method="post" class="center">
             <?php 
             ?>
-        <input type="submit" name="openChatButton" value="Message This Human?" class="messagethishuman">
-        <input type="hidden" name="matchEmail" value=<?php echo $_POST['matchEmail']?>>
-        </form>
 
+        <input type="submit" name="openChatButton" value="Message This Human?">
+        <input type="hidden" name="matchEmail" value=<?php echo $_SESSION['matchEmail']?>>
+
+        </form>
             
 	</body>
 </html>
