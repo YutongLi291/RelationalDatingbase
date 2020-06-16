@@ -65,10 +65,32 @@
 		   $result = $conn->query($sql);
 		   $avgmatches = $result->fetch_assoc();
 		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
-		   
-		   ////
-			
 		?>
+
+		<p>
+			<?php
+				if (isset($_SESSION['loc_users'])) {
+					echo $_SESSION['loc_users'];
+					unset($_SESSION['loc_users']);
+				} else {
+					echo "please select user post locations:";
+				} 
+				?>
+		</p>
+
+		<form method="POST" action="find_user_location_post.php">
+			<?php
+			?>
+			<input type="checkbox" name="BC">
+			<label for="BC">British Columbia</label><br>
+			<input type="checkbox" name="AB">
+			<label for="AB">Alberta</label><br>
+			<input type="checkbox" name="SK">
+			<label for="SK">Saskatchewan</label><br>
+
+			<button name="send" type="submit">Submit</button>
+		</form>
+
         
 		
 	</body>

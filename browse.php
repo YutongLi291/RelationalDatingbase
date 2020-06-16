@@ -1,7 +1,3 @@
-<!-- //FIRST GET A RANDOM PERSON THAT THIS USER HASN'T SWIPED LEFT YET WITH MATCHING GENDER
-//GIVE USER OPTION TO SWIPE LEFT OR RIGHT
-//UPDATE DATABASE -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,7 +126,6 @@
         $genderPref = $_SESSION['genderPref'];
         
 
-
         $alreadyMatched_sql = 
         "SELECT secondUser from usermatchescontains
         where firstUser='$userEmail'
@@ -159,7 +154,8 @@
         where u.email!='$userEmail' ".$isGenderPref_sql." and u.email NOT IN ("
             .$alreadyMatched_sql.
         ")";
-        if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1) {
+        if ($conn->query($matchesCount_sql)->fetch_assoc()['count(*)'] > 1 &&
+            isset($_SESSION['swipeeEmail'])) {
             $previousEmail =$_SESSION['swipeeEmail'];
             $notDuplicate_sql = " and u.email!='$previousEmail' ";
         } else {
@@ -205,7 +201,7 @@
 
 ?>
 
-<!-- notification of actions -->
+    <!-- notification of actions -->
     <p class ="center"><?php 
         if (isset($_SESSION["matchMadeWith"])) {
             echo "Match made with ".$_SESSION["matchMadeWith"];
@@ -219,7 +215,7 @@
         
         <!-- profile picture -->
         <img id="browse_profilepic" class="center" src=<?php 
-        if (isset($_SESSION['show_pic']))
+        if (isset($_SESSION['show_pic'], $_SESSION['m_img_link']))
             echo $_SESSION['m_img_link'];
             ?> >
         <!-- match name -->
@@ -227,7 +223,7 @@
         if (isset($_SESSION['m_name'])) {
             echo $_SESSION['m_name'];
         } else {
-            echo "sorry no matches at this time!";
+            echo "Sorry no matches at this time!<p>You've got 'em all you fox.";
         }
         ?></h3>
         <!-- match bio -->
@@ -235,22 +231,15 @@
             if(isset($_SESSION['m_bio'])) echo $_SESSION['m_bio'];
         ?></p>
 
-        <!-- matches most recent text post -->
-        <?php
-        if (isset($_SESSION['show_recent_post'])) {
-            $sql = 
-            "SELECT * from textposts tp JOIN photoposts pp
-            where tp.userEmail='$matchEmail' and pp.userEmail='$matchEmail'";
-        }
-        ?>
-
         <!-- warning if match has more matches than average -->
         <p class="center"><?php
-            $average = getAvgMatches();
-            $matchMatches = getUserMatches($_SESSION['swipeeEmail']);
-            echo "This user has ".$matchMatches." match(es) while the average is ".$average.".";
-            if ($average < $matchMatches) {
-                echo "<br>Watch out, this user has an above average number of matches!";
+            if (isset($_SESSION['swipeeEmail'])) {
+                $average = getAvgMatches();
+                $matchMatches = getUserMatches($_SESSION['swipeeEmail']);
+                echo "This user has ".$matchMatches." match(es) while the average is ".$average.".";
+                if ($average < $matchMatches) {
+                    echo "<br>Watch out, this user has an above average number of matches!";
+                }
             }
         ?></php>
 
