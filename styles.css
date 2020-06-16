@@ -480,13 +480,14 @@ nav a{
 #profileinfo{
 	width: 100%;
 	margin:0;
+	background: #f7f7f7;
 }
 
 .profilebottom{
-	background:#f7f7f7;
 	height: 100%;
 	padding: 30px;
 	padding-left: 60px;
+	background: #f7f7f7;
 }
 
 .profiletextvalue{
@@ -505,6 +506,31 @@ nav a{
 	color:#555555;
 }
 
+.profilelocation{
+	padding: 40px 0;
+	width: 100%;
+	text-align: center;
+}
+
+.citylist{
+	margin: 0 30px;
+	color:#333;
+}
+
+#province{
+	width:200px;
+	height: 40px;
+	padding: 8px;
+	border: none;
+	background: #ccc;
+	font-weight: 500;
+}
+
+.profiledeactivate{
+	background: #FEEFEC;
+	text-align: center;
+}
+
 .deactivatebutton{
 	background: #EA6557;
 	color: #fff;
@@ -515,7 +541,6 @@ nav a{
 	border-radius: 50px;
 	font-weight: 500;
 	cursor: pointer;
-	margin-top: 10px;
 }
 
 #deactivateform{
