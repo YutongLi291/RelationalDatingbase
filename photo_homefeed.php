@@ -115,7 +115,7 @@
 				<form action='react_photo.php' method='GET'>
 					<select id='reacts' name='reacts' >
 						<option value='' disabled selected>Select your option</option>
-						<option value="angry"?>Angry</option>
+						<option value="angry">Angry</option>
 						<option value='like'>Like</option>
 						<option value='love'>Love</option>
 						<option value='sad'>Sad</option>
