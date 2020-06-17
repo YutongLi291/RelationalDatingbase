@@ -9,7 +9,8 @@
 	</head>
 	<body>
 
-    <h1> STATS PAGE WHY IS THIS HERE???? NO ONE KNOWS </h1>
+    <h1> Database Secret Info </h1>
+	<h3> Are you taking CPSC304? <p> LIKE A NERD?! </h3>
 
 		<?php
 			include 'connect.php';
@@ -77,21 +78,24 @@
 					echo $_SESSION['loc_users'];
 					// unset($_SESSION['loc_users']);
 				} else {
-					echo "please select user post locations:";
+					echo "no users fit the requirements, please select something different:";
 				} 
 				?>
 		</h1>
 
 		<form method="POST" action="find_user_location_post.php">
+			<p>Find users who have been to (posted in) these locations:</p>
 			<?php
+			$loc_sql="SELECT * from location";
+			$result = $conn->query($loc_sql);
+			while ($row = $result->fetch_assoc()) {
+				$curr_ID=$row['locID'];
+				$curr_province=$row['province'];
+				$curr_city=$row['city'];
+				echo "<input type=\"checkbox\" name={$curr_ID} >
+				<label for={$curr_ID}>{$curr_city} {$curr_province}</label><br>";
+			}
 			?>
-			<input type="checkbox" name="1">
-			<label for="1">British Columbia</label><br>
-			<input type="checkbox" name="2">
-			<label for="2">Alberta</label><br>
-			<input type="checkbox" name="3">
-			<label for="3">Saskatchewan</label><br>
-
 			<button name="button" type="submit">Submit</button>
 		</form>
 

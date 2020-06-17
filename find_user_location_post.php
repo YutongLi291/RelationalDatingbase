@@ -41,12 +41,16 @@
         $sql = 
         "SELECT * from users u
         where NOT EXISTS (
-            select locID from location where ".$selectedLoc_sql." locID
-            NOT IN (
-            select tp.location 
-            from textposts tp
-            where u.email=tp.userEmail
-            )
+            select locID from location where ".$selectedLoc_sql." 
+            locID NOT IN (
+                select tp.location 
+                from textposts tp
+                where u.email=tp.userEmail
+            union
+                select pp.location 
+                from pictureposts pp
+                where u.email=pp.userEmail
+            )            
         );";
         $result =$conn->query($sql);
         while ($row = $result->fetch_assoc()) {
