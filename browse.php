@@ -212,7 +212,7 @@
 ?>
 
     <!-- notification of actions -->
-    <p class ="center"><?php 
+    <h3 class ="center"><?php 
         if (isset($_SESSION["matchMadeWith"])) {
             echo "Match made with ".$_SESSION["matchMadeWith"];
         } else if (isset($_SESSION["swipeMadeWith"])) {
@@ -221,7 +221,7 @@
             echo "Blocked ".$_SESSION["blockMadeWith"];
         } 
         unset($_SESSION["matchMadeWith"], $_SESSION["swipeMadeWith"],$_SESSION["blockMadeWith"] );
-    ?></p>
+    ?></h3>
 
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
         
