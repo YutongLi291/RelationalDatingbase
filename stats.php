@@ -9,10 +9,12 @@
 	</head>
 	<body>
 
-    <h1> STATS PAGE WHY IS THIS HERE???? NO ONE KNOWS </h1>
+    <h1> Database Secret Info </h1>
+	<h3> Are you taking CPSC304? <p> LIKE A NERD?! </h3>
 
 		<?php
-            include 'connect.php';
+			include 'connect.php';
+			session_start();
             include 'header.php';
             $conn = OpenCon();
             
@@ -35,11 +37,13 @@
              )) as topusers WHERE users.email = topusers.user
 			";
 			$result = $conn->query($sql);
-			$topuser = $result->fetch_assoc();
-            echo "User with the most matches: ".$topuser['firstName']." ".$topuser['lastName']." (Watch out for this person)";
+			if ($topuser = $result->fetch_assoc()) {
+				echo "User with the most matches: ".$topuser['firstName']." ".$topuser['lastName']." (Watch out for this person)";
+			} else {
+				echo "There is no top user at the moment!";
+			}
 			
 			///NUMBER OF TOTAL MESSAGES SENT
-			
 			$sql = "SELECT count(*) as count from hasusermessages";
 			$result = $conn->query($sql);
 			$totalmessages = $result->fetch_assoc();
@@ -67,28 +71,32 @@
 		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
 		?>
 
-		<p>
+		<!-- users who have posted at all the chosen locations! -->
+		<h1>
 			<?php
 				if (isset($_SESSION['loc_users'])) {
 					echo $_SESSION['loc_users'];
-					unset($_SESSION['loc_users']);
+					// unset($_SESSION['loc_users']);
 				} else {
-					echo "please select user post locations:";
+					echo "no users fit the requirements, please select something different:";
 				} 
 				?>
-		</p>
+		</h1>
 
 		<form method="POST" action="find_user_location_post.php">
+			<p>Find users who have been to (posted in) these locations:</p>
 			<?php
+			$loc_sql="SELECT * from location";
+			$result = $conn->query($loc_sql);
+			while ($row = $result->fetch_assoc()) {
+				$curr_ID=$row['locID'];
+				$curr_province=$row['province'];
+				$curr_city=$row['city'];
+				echo "<input type=\"checkbox\" name={$curr_ID} >
+				<label for={$curr_ID}>{$curr_city} {$curr_province}</label><br>";
+			}
 			?>
-			<input type="checkbox" name="BC">
-			<label for="BC">British Columbia</label><br>
-			<input type="checkbox" name="AB">
-			<label for="AB">Alberta</label><br>
-			<input type="checkbox" name="SK">
-			<label for="SK">Saskatchewan</label><br>
-
-			<button name="send" type="submit">Submit</button>
+			<button name="button" type="submit">Submit</button>
 		</form>
 
         
