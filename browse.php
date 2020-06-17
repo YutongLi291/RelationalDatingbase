@@ -23,8 +23,7 @@
         // default starting account
         if (!isset($_SESSION['userEmail'])) {
             session_start();
-            setCurrCID(5);
-            setCurrUser("bbbbra@hotmail.com");
+            header("location: signin.php");
         } 
 
         if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);

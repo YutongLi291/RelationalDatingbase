@@ -18,8 +18,7 @@
 
     // default starting account
     if (!isset($_SESSION['userEmail'])) {
-        session_start();
-        setCurrUser("bbbb@hotmail.com");
+        header("location: signin.php");
     } 
     
     // sets match email if coming from match profile
