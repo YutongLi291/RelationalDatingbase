@@ -128,12 +128,14 @@
 
         $alreadyMatched_sql = 
         "SELECT secondUser from usermatchescontains
-        where firstUser='$userEmail'
+        where firstUser='$userEmail' and secondUser is not null
         UNION
         SELECT firstUser from usermatchescontains
-        where secondUser='$userEmail'
+        where secondUser='$userEmail' and firstUser is not null
         UNION
-        SELECT blockee from blocks where blocker='$userEmail'";
+        SELECT blockee from blocks where blocker='$userEmail' and blockee is not null
+        UNION
+        SELECT swipee from swipes where swiper='$userEmail' and swipee is not null";
 
         // query differs based on user-set filters
         // setting isGenderPref_sql based on button toggle
