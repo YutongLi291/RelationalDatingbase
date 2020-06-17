@@ -182,10 +182,10 @@
             
             
             // notification in case only one choice left
-            if ($_SESSION['swipeeEmail'] == $row['email']) {
+            if (isset($_SESSION['swipeeEmail']) && $_SESSION['swipeeEmail'] == $row['email']) {
                 echo "<p class=\"center\">Looks like you're stuck with this one!</p>";
 				$_SESSION['swipeeEmail']= $row['email'];
-            } else {
+				} else {
                 $_SESSION['swipeeEmail'] = $row['email'];
             }
             
