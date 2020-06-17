@@ -1,19 +1,13 @@
 <?php
     include_once 'connect.php';
     
-	
-    // function run($obConn,$sql)
-    // {
-    //     $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
-	// }
-	
-	
+		
     function post() {
         $conn = OpenCon();
         // find postID of next text post to post
         
         
-            //Finf max postID
+            //Find max postID
             $sql =
             "SELECT max(postID) as postID from textposts;";
 			
