@@ -11,6 +11,7 @@ $age= $_POST['age'];
 $location= $_POST['location'];
 $profilephoto = $_POST['profilephoto'];
 $description = $_POST['description'];
+$description = str_replace("'", "\'", $description);
 
 $gender= $_POST['gender'];
 $preferredgender = $_POST['preferredgender'];
@@ -24,7 +25,7 @@ $conn = OpenCon();
 
 echo $email."<br>".$firstname."<br>".$lastname."<br>".$password."<br>".$nickname."<br>".$age."<br>".$description."<br>".$gender."<br>".$preferredgender."<br>".$relationship."<br>".$profilephoto."<br>".$membership."<br>".$currenttime."<br>";
 
-$sql = "INSERT INTO users (email, firstName, lastName, nickName, description, age, location, password, gender, prefersGender, relationship) VALUES('$email', '$firstname', '$lastname', '$nickname', '$description', $age, '$location', '$password',  '$gender', '$preferredgender', '$relationship')";
+$sql = "INSERT INTO users (email, firstName, lastName, nickName, description, age, location, password, gender, prefersGender, relationship) VALUES ('$email', '$firstname', '$lastname', '$nickname', '$description', $age, '$location', '$password',  '$gender', '$preferredgender', '$relationship')";
 
 
 if ($conn->query($sql) === TRUE) {
