@@ -72,7 +72,6 @@ function makeMatch() {
 
 function removeMatch() {
     echo "nope.";
-    // $_SESSION['left_swipes'][] = $_SESSION['swipeeEmail'];
 }
 
 ?>
