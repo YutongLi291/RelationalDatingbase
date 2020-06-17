@@ -157,5 +157,10 @@ if(isset($_SESSION['userEmail'])){
 			<div class="profiledeactivate">
 				<br><br><br><a href='profiledelete.php'><button class='deactivatebutton'> Deactivate my account </button></a><br><br><br><br>
 			</div>
+
+			<!-- link to stats page -->
+			<div>
+				<a href='stats.php'><button> Secret Database Stats OHOHOHOHOHO ( ͡° ͜ʖ ͡°)</button></a>
+			</div>
 	</body>
 </html>

@@ -5,8 +5,8 @@
     {
         $rsResult = mysqli_query($obConn, $sql) or die(mysqli_error($obConn));
 	}
+
 	///referenced from https://www.geeksforgeeks.org/php-startswith-and-endswith-functions/#:~:text=The%20endsWith()%20function%20is,function%20to%20search%20the%20data.
-	
 	function endsWith($string, $endString) 
 	{ 
 		$len = strlen($endString); 
@@ -51,23 +51,22 @@
         
 		//insert photo(s)
 		$linkArray = explode(";", $text);
-		$valid = 0;    ///IF NO PHOTOS ARE INSERTED
-		foreach($linkArray as $url){
-			//if (endsWith($url, ".png") || endsWith($url, ".png") || endsWith($url, ".tiff")){
-			if(is_array(getimagesize($url))){
-			$valid = 1;   //AT LEAST ONE PHOTO INSERTED
-			$sql = "INSERT INTO photos (dateTime, postID, userEmail,link) VALUES ((SELECT NOW()), $currPostID, '$currUser', '$url')";
-			run($conn,$sql);
+		$valid = 0; //IF NO PHOTOS ARE INSERTED
+		foreach( $linkArray as $url ) {
+			echo "inserted ".$url." ";
+			// if (getimagesize($url)) {
+			if (endsWith($url, ".png") || endsWith($url, ".jpg")) {
+				$valid = 1; //AT LEAST ONE PHOTO INSERTED
+				$sql = "INSERT INTO photos (dateTime, postID, userEmail,link) VALUES ((SELECT NOW()), $currPostID, '$currUser', '$url')";
+				run($conn,$sql);
 			}
-			//}
 		}
+
 		if ($valid == 0){   //IF NO PHOTOS ARE INSERTED
 		$sql = "DELETE FROM pictureposts WHERE postID = $currPostID";
 			run($conn,$sql);
 		}
-		
-        // gets current time
-		
+				
 		unset($_POST['text']);
 		header("Location: photo_homefeed.php");
 	}
