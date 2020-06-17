@@ -10,7 +10,7 @@
 <body>
     <br><br><br><br><br><br>
     <h1>Find Your Match!</h1>
-    <p class="center">This select 'yes' to swipe right, 'no' to swipe left. 
+    <p class="center">This select 'Swipe Right' to swipe right, 'Random' to swipe left, 'Block' to block the user. 
         <br>
         The next user is randomly drawn and matches your gender preference and you have not yet swiped right on (in this session).
     </p>
@@ -209,8 +209,10 @@
             echo "Match made with ".$_SESSION["matchMadeWith"];
         } else if (isset($_SESSION["swipeMadeWith"])) {
             echo "Swiped ".$_SESSION["swipeMadeWith"];
-        }
-        unset($_SESSION["matchMadeWith"], $_SESSION["swipeMadeWith"]);
+        } else if (isset($_SESSION["blockMadeWith"])) {
+            echo "Blocked ".$_SESSION["blockMadeWith"];
+        } 
+        unset($_SESSION["matchMadeWith"], $_SESSION["swipeMadeWith"],$_SESSION["blockMadeWith"] );
     ?></p>
 
     <form id="swipe_form" onsubmit="" action="swipe_save.php" method="post">
@@ -248,6 +250,7 @@
         <br>
         <button id="swipeRightButton" class="center" type="submit" name="match" >Swipe Right</button>
         <button id="swipeLeftButton" class="center" type="submit" name="no_match">Random</button>
+		<button id="blockButton" class="center" type="submit" name="block">Block</button>
         <br>
     </form>
 
