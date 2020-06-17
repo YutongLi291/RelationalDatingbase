@@ -38,8 +38,18 @@
         $returnVal = "";
 
         // division
+		if ($_POST['attribute'] == 'Email'){
+			$wanted = 'email';
+			}
+		else if ($_POST['attribute'] == 'Name'){
+			$wanted = 'firstName, lastName';
+			}
+			else{
+			$wanted = 'firstName, lastName, email';
+			}
+		
         $sql = 
-        "SELECT * from users u
+        "SELECT $wanted from users u
         where NOT EXISTS (
             select locID from location where ".$selectedLoc_sql." 
             locID NOT IN (
@@ -53,19 +63,12 @@
             )            
         );";
         $result =$conn->query($sql);
-		if ($_POST['attribute'] == 'Email'){
+		
         while ($row = $result->fetch_assoc()) {
-            $returnVal .= " ".$row['email'];
+		foreach($row as $key => $var){
+            $returnVal .=  $var ." " ;
         }
-		}
-		else if ($_POST['attribute'] == 'Name'){
-		while ($row = $result->fetch_assoc()) {
-            $returnVal .= " ".$row['firstName']." " .$row['lastName']."   ";
-        }}
-		else if ($_POST['attribute'] == 'Both'){
-		while ($row = $result->fetch_assoc()) {
-		$returnVal .= " ".$row['email'].": ".$row['firstName']." " .$row['lastName']. "     ";
-		}
+		$returnVal .= '<br />';
 		}
 		
 
