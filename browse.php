@@ -180,11 +180,12 @@
             if (isset($_SESSION['show_pic'])) $_SESSION['m_img_link'] = $row['link'];
             $_SESSION['m_name'] = $row['firstName']." ".$row['lastName'];
             $_SESSION['m_bio'] = $row['description'];
-            $_SESSION['swipeeEmail']= $row['email'];
+            
             
             // notification in case only one choice left
             if ($_SESSION['swipeeEmail'] == $row['email']) {
                 echo "<p class=\"center\">Looks like you're stuck with this one!</p>";
+				$_SESSION['swipeeEmail']= $row['email'];
             } else {
                 $_SESSION['swipeeEmail'] = $row['email'];
             }
