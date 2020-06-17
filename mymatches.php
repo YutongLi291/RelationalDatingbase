@@ -9,10 +9,9 @@
 	</head>
 	<body>
 
-    <h1 style="margin-top:140px;"> MY MATCHES </h1><br>
-    <!-- <h3>Name</h3> -->
+    <h1><br><br>MY MATCHES</h1>
 		<?php
-			include 'connect.php';
+            include 'connect.php';
             include 'header.php';
             $conn = OpenCon();
             session_start();
@@ -29,20 +28,21 @@
             where umc.secondUser='$userEmail')";
             $result = $conn->query($sql);
 
+            if ($result->num_rows == 0) echo "<h3 class=\"center\">No matches yet...<p><br><br><br><br><br><br>Go getem' tiger!</h3>";
             while($row = $result->fetch_assoc()) {
                 // display name and profile
                 $matchName="{$row["firstName"]}-{$row["lastName"]}";
                 $matchEmail="{$row["email"]}";
-                echo "<tr><td class='mymatchrow'>
+                echo "<tr><td class='border-class'>
                 
-                <form method=\"post\" action=\"match_profile.php\" class='mymatch'>
-                    <input type=\"submit\" value={$matchName} name=\"viewProfileButton\" onClick>
+                <form method=\"post\" action=\"match_profile.php\" class=\"mymatch\">
+                    <input type=\"submit\" value={$matchName} name=\"viewProfileButton\"  onClick>
                     <input name=\"matchEmail\" type=\"hidden\" value=$matchEmail>
                     <td class='border-class'></td></tr>
                 </form>
-                </td></tr>";
+                </td>"
+                ;
             }   
 		?>
-		
 	</body>
 </html>

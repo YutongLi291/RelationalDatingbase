@@ -9,13 +9,6 @@
 	</head>
 	<body>
 
-		<?php
-			include 'connect.php';
-			$conn = OpenCon();
-			$sql = "SELECT * from users";
-			$result = $conn->query($sql);
-		?>
-
 		<nav> 
 			<p> RELATIONAL DATINGBASE</p>
 		</nav>

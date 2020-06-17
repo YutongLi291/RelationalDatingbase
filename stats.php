@@ -50,7 +50,7 @@
 			echo "<p>Total number of messages sent: " .$totalmessages['count']. "</p>";
 			
 			 /// AVERAGE number of MATCHES found
-			$sql = " SELECT avg(totalMatches) as average
+			$sql = "SELECT avg(totalMatches) as average
         from(
             select email, sum(count) totalMatches
                from (
