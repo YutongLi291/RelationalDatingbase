@@ -50,25 +50,32 @@
 			echo "<p>Total number of messages sent: " .$totalmessages['count']. "</p>";
 			
 			 /// AVERAGE number of MATCHES found
-			$sql = "SELECT avg(totalMatches) as average
-        from(
-            select email, sum(count) totalMatches
-               from (
-       
-               SELECT firstUser as email, COUNT(secondUser) as count
-               FROM usermatchescontains
-               GROUP BY firstUser
-               UNION ALL
-               SELECT secondUser as email, COUNT(firstUser) as count
-               FROM usermatchescontains
-               GROUP BY secondUser
-                   ) as hello
-            group by email
-            
-           ) as allUsers";
+			$sql = "SELECT avg(totalMatches) as average from (
+                select email, sum(count) totalMatches from (
+                  SELECT firstUser as email, COUNT(secondUser) as count
+                  FROM usermatchescontains
+                  GROUP BY firstUser
+                  UNION ALL
+                  SELECT secondUser as email, COUNT(firstUser) as count
+                  FROM usermatchescontains
+                  GROUP BY secondUser
+                ) as matchedSum
+               where email is not null
+               group by email
+               
+               UNION
+               
+               SELECT email, 0
+               FROM users
+               WHERE email NOT IN (
+                   SELECT firstuser from usermatchescontains where firstuser is not null
+                   UNION
+                   SELECT seconduser from usermatchescontains where seconduser is not null
+                )
+            ) as allUsers";
 		   $result = $conn->query($sql);
 		   $avgmatches = $result->fetch_assoc();
-		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
+		   echo "<p>Average number of matches found for each user: " .$avgmatches['average']. "</p>";
 
 		?>
 
@@ -88,6 +95,11 @@
 				<label for={$curr_ID}>{$curr_city} {$curr_province}</label><br>";
 			}
 			?>
+			<select id="attribute" name="attribute" >
+	<option value="" disabled selected>Select what attribute you want</option>
+	<option value="Email">Email</option>
+	<option value="Name">Name</option>
+	<option value ="Both">Both</option></select>
 			<button name="button" type="submit">Submit</button>
 		</form>
 

@@ -53,9 +53,21 @@
             )            
         );";
         $result =$conn->query($sql);
+		if ($_POST['attribute'] == 'Email'){
         while ($row = $result->fetch_assoc()) {
             $returnVal .= " ".$row['email'];
         }
+		}
+		else if ($_POST['attribute'] == 'Name'){
+		while ($row = $result->fetch_assoc()) {
+            $returnVal .= " ".$row['firstName']." " .$row['lastName']."   ";
+        }}
+		else if ($_POST['attribute'] == 'Both'){
+		while ($row = $result->fetch_assoc()) {
+		$returnVal .= " ".$row['email'].": ".$row['firstName']." " .$row['lastName']. "     ";
+		}
+		}
+		
 
         if ($returnVal == "") {
             unset($_SESSION['loc_users']);
