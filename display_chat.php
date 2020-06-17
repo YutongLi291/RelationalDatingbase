@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+	<br><br><br>
     <title>Chat</title>
 </head>
 <body>
@@ -13,6 +14,7 @@
     session_start();
 
     include 'connect.php';
+	include 'header.php';
 
     // default starting account
     if (!isset($_SESSION['userEmail'])) {
