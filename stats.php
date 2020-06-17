@@ -30,9 +30,9 @@
             WHERE user 
             NOT IN 
             (SELECT u1.user FROM 
-			(SELECT count(user) count, user FROM(SELECT firstuser user  FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u11 GROUP BY user ) u1
+			(SELECT count(user) count, user FROM(SELECT firstuser user  FROM  usermatchescontains WHERE usermatchescontains.firstUser ||usermatchescontains.secondUser IS NOT NULL UNION ALL SELECT seconduser user FROM usermatchescontains WHERE  usermatchescontains.firstUser ||usermatchescontains.secondUser IS NOT NULL) as u11 GROUP BY user ) u1
 			CROSS JOIN
-			(SELECT count(user) count, user FROM (SELECT firstuser user FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u21 GROUP BY user) u2
+			(SELECT count(user) count, user FROM (SELECT firstuser user FROM  usermatchescontains WHERE usermatchescontains.firstUser ||usermatchescontains.secondUser IS NOT NULL UNION ALL SELECT seconduser user FROM usermatchescontains WHERE usermatchescontains.firstUser ||usermatchescontains.secondUser IS NOT NULL) as u21 GROUP BY user) u2
 			where u1.count < u2.count
              )) as topusers WHERE users.email = topusers.user
 			";
