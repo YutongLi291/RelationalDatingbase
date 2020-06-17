@@ -7,12 +7,43 @@ session_start();
 if (isset($_POST["match"])) {
     echo "MATCH";
     makeMatch();
-} else if (isset($_POST["no_match"])) {
+} else if (isset($_POST["block"])) {
+    echo "BLOCK";
+    block();
+}else if (isset($_POST["no_match"])) {
     echo "REMOVE";
     removeMatch();
 }
 
 header("Location: browse.php");
+
+function block() {
+    // adds new block to database
+    
+    $conn = OpenCon();
+    $currUser = $_SESSION['userEmail'];
+    
+    // getting next ID
+    $sql = "SELECT max(bID) from blocks";
+    $next_bID = 1;
+    $result = $conn->query($sql);
+    if ($row = $result->fetch_assoc()) {
+        $next_bID = $row['max(bID)'] + 1;
+    }
+    echo $next_sID;
+
+    // get target
+    $target = $_SESSION['swipeeEmail'];
+    echo $target;
+
+    // insert new swiping info
+    $sql = 
+    "INSERT into blocks (bID, blocker, blockee) values ($next_bID, '$currUser', '$target')";
+    $conn->query($sql);
+    $_SESSION["blockMadeWith"]=$target;
+   
+
+    }
 
 function makeMatch() {
     // adds new match to database
