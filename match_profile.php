@@ -95,7 +95,7 @@
 				echo "<form id='filter_form' action='display_chat.php' method='post' class='center'>
             
 
-        <input type='submit' id = 'openChatButton' name='openChatButton' value='Message This Human?'>
+        <input type='submit' id = 'openChatButton' name='openChatButton' value='Message This Human?' class=\"messagethishuman\">
         <input type='hidden' name='matchEmail' value=".$_SESSION['matchEmail'].">
 
         </form>";
