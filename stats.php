@@ -67,6 +67,7 @@
 		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
 		   
 		   ////
+		  
 			
 		?>
         
