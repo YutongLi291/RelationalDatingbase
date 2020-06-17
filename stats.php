@@ -9,8 +9,8 @@
 	</head>
 	<body>
 
-	<h1><br><br>Here There Be Database Secret Info </h1>
-	<h3> Are you taking CPSC304? <p> LIKE A NERD?! </h3>
+	<h3><br><br><br>Are you taking CPSC304? <p> LIKE A NERD?! </h3>
+	<h1><br>Here There Be Database Secret Info</h1>
 
 		<?php
 			include 'connect.php';
@@ -71,20 +71,11 @@
 		   echo "<p>Average number of matches found for each user: " .round($avgmatches['average']). "</p>";
 		?>
 
+
+		<h1>Find users who have been to (posted in) these locations:</h1>
 		<!-- users who have posted at all the chosen locations! -->
-		<h1>
-			<?php
-				if (isset($_SESSION['loc_users'])) {
-					echo $_SESSION['loc_users'];
-					// unset($_SESSION['loc_users']);
-				} else {
-					echo "no users fit the requirements, please select something different:";
-				} 
-				?>
-		</h1>
 
 		<form method="POST" action="find_user_location_post.php">
-			<p>Find users who have been to (posted in) these locations:</p>
 			<?php
 			$loc_sql="SELECT * from location";
 			$result = $conn->query($loc_sql);
@@ -99,7 +90,16 @@
 			<button name="button" type="submit">Submit</button>
 		</form>
 
-        
+		<p>
+			<?php
+				if (isset($_SESSION['loc_users'])) {
+					echo $_SESSION['loc_users'];
+					// unset($_SESSION['loc_users']);
+				} else {
+					echo "no users fit the requirements, please select something different:";
+				} 
+				?>
+		</p>
 		
 	</body>
 </html>
