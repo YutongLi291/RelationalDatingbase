@@ -60,23 +60,31 @@
     // returns average# matches over all users
     function getAvgMatches() {
         $conn = OpenCon();
-        $avgMatch_sql = 
-        "SELECT avg(totalMatches) as average
-        from(
-            select email, sum(count) totalMatches
-               from (
-       
-               SELECT firstUser as email, COUNT(secondUser) as count
-               FROM usermatchescontains
-               GROUP BY firstUser
-               UNION ALL
-               SELECT secondUser as email, COUNT(firstUser) as count
-               FROM usermatchescontains
-               GROUP BY secondUser
-                   ) as hello
-            group by email
-            
-           ) as allUsers";
+           $avgMatch_sql = 
+           "SELECT avg(totalMatches) as average from (
+                select email, sum(count) totalMatches from (
+                  SELECT firstUser as email, COUNT(secondUser) as count
+                  FROM usermatchescontains
+                  GROUP BY firstUser
+                  UNION ALL
+                  SELECT secondUser as email, COUNT(firstUser) as count
+                  FROM usermatchescontains
+                  GROUP BY secondUser
+                ) as matchedSum
+               where email is not null
+               group by email
+               
+               UNION
+               
+               SELECT email, 0
+               FROM users
+               WHERE email NOT IN (
+                   SELECT firstuser from usermatchescontains where firstuser is not null
+                   UNION
+                   SELECT seconduser from usermatchescontains where seconduser is not null
+                )
+            ) as allUsers
+            ";
         
         $result = $conn->query($avgMatch_sql);
         if ($row = $result->fetch_assoc()) {
