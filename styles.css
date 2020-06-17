@@ -427,6 +427,18 @@ nav a{
 	font-weight: 500;
 	cursor: pointer;
 }
+#openChatButton {
+	background: #0000FF;
+	color: #fff;
+	width: 40%;
+	border: none;
+	height: 40px;
+	padding: 10px;
+	border-radius: 50px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	cursor: pointer;
+}
 
 /* ===============================================
 	DISPLAY CHAT

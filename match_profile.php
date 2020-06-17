@@ -92,18 +92,18 @@
 				}
 				
 				echo "<p><span class='profiletextvalue'> A little bit about myself:</p><p class='profiletextvalue'><i style='font-size:14px;'>\"".$description."\"</i></span></p>";
+				echo "<form id='filter_form' action='display_chat.php' method='post' class='center'>
+            
+
+        <input type='submit' id = 'openChatButton' name='openChatButton' value='Message This Human?'>
+        <input type='hidden' name='matchEmail' value=".$_SESSION['matchEmail'].">
+
+        </form>";
 				echo "</div>";
+				
 			echo "</div>";
         ?>
-        
-
-        <form id="filter_form" action="display_chat.php" method="post" class="center">
-            <?php 
-            ?>
-
-        <input type="submit" name="openChatButton" value="Message This Human?">
-        <input type="hidden" name="matchEmail" value=<?php echo $_SESSION['matchEmail']?>>
-
+       
         </form>
             
 	</body>
