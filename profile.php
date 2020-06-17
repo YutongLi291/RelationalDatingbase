@@ -117,7 +117,7 @@ if(isset($_SESSION['userEmail'])){
 					}
 				echo "<br>";
 
-				echo "<form action='profilelocationcheck.php' method='post' id='locationdropdown' name='provincecheck' target='_blank'>";
+				echo "<form action='profilelocationcheck.php' method='post' id='locationdropdown' name='provincecheck' >";
 					echo "<p> Select province to find out where else we are operating in Canada </p>";
 					//onchange is javascript code. Provincecheck refers to the name of the form.
 					echo "<select id='province' name='citylocation' onchange='provincecheck.submit();'>
