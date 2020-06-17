@@ -9,25 +9,16 @@
 	<body>
 	<br><br><br><br>
 		<h1>Your Text Feed</h1>
-		
-		
-		
 	</body>
 </html>
 <?php
 	include 'connect.php';
 	include "save_textpost.php";
-	 include 'header.php';
-	/// NEED TO KNOW WHO IS LOGGED IN
+	include 'header.php';
 	
 	session_start();
 
-	if(isset($_SESSION['userEmail'])){
-	
-	}else{
-	// header("location: signin.php");
-		echo "not set";
-	}
+	if (!isset($_SESSION['userEmail'])) header("location: signin.php");
 
 	if (isset($_POST['loginAs'])) setCurrUser($_POST['loginAs']);
 
@@ -35,6 +26,7 @@
         post();
         unset($_POST['text']);
 	}
+
 	$currUser = $_SESSION['userEmail'];
 	$sql0 = "SELECT firstName, lastName from users WHERE email = '$currUser'";
 	$conn0 = OpenCon();
@@ -45,28 +37,7 @@
 	load_feed();
 ?>
 <?php
-	include 'react_text.php';
-	
-	
-	if (empty($_GET['reacts'])) {
-		//  echo "GET REACTS IS EMPTY";
-		removeReact();
-	}
-	else{
-		// echo "pID: ".$_GET['pID'];
-		// echo "reaction: ".$_GET['reacts'];
-		// echo "REACTS GET NOT EMPTY";
-		react();
-		
-        unset($_GET['reacts']);
-	}
-	
-	
-	
-	
-	
-	
-	
+
 	
 	function setCurrUser($currUser) {
 		$_SESSION['userEmail'] = $currUser;
@@ -77,8 +48,7 @@
 		$conn = OpenCon();
 		$currUser = $_SESSION['userEmail'];
 		
-		// get name of matched users
-		
+		// get name of matched users	
 		
 		$sql = "SELECT * from textposts,users, location where userEmail IN (SELECT secondUser as matches FROM usermatchescontains
 		WHERE firstUser = '$currUser'
@@ -130,11 +100,10 @@
 			?>
 			
 			
-			<form onAction='text_homefeed.php' method='GET'>
-				
+			<form action='react_text.php' method='GET'>
 				<select id='reacts' name='reacts' >
-					<option value='' disabled selected>Select your option</option>
-				<option value="angry"?>Angry</option>
+				<option value='' disabled selected>Select your option</option>
+				<option value="angry">Angry</option>
 				<option value='like'>Like</option>
 				<option value='love'>Love</option>
 				<option value='sad'>Sad</option>
