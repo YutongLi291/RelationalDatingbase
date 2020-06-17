@@ -14,8 +14,8 @@
 
 		<?php
 			include 'connect.php';
+			include 'header.php';
 			session_start();
-            include 'header.php';
             $conn = OpenCon();
             
 			$sql = "SELECT count(*) from users";
@@ -24,8 +24,8 @@
             echo "<p>Number of Users Registered: {$numUsers}</p>";
 			
 			//FIND USER With the MOST MATCHES
-			$sql = "								
-            SELECT firstName, lastName FROM users,
+			$sql = 
+			"SELECT firstName, lastName FROM users,
             (SELECT user FROM (SELECT firstuser user  FROM  usermatchescontains UNION ALL SELECT seconduser user FROM usermatchescontains) as u01
             WHERE user 
             NOT IN 
