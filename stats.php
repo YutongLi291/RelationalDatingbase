@@ -9,7 +9,7 @@
 	</head>
 	<body>
 
-    <h1> Database Secret Info </h1>
+	<h1><br><br>Here There Be Database Secret Info </h1>
 	<h3> Are you taking CPSC304? <p> LIKE A NERD?! </h3>
 
 		<?php
