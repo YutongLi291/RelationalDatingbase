@@ -19,25 +19,23 @@
         $conn = OpenCon();
         // find postID of next text post to post
         
-        if (isset($_SESSION["photopostID"])) {
-            $_SESSION["photopostID"] -= 1;
-			} else {
-            // this is only run if this is the first post the user is posting
+        
+            // Find min postID
             $sql =
             "SELECT min(postID) as postID from pictureposts;";
 			
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
-                $_SESSION["photopostID"] = $row["postID"] - 1;
+                $photopostID = $row["postID"] - 1;
 				} else {
-                $_SESSION["photopostID"] = -1;
+                $photopostID = -1;
 			}
-		}
-		echo $_SESSION["photopostID"];
+		
+		echo $photopostID;
 
 		$locID = $_POST["city"];
 		
-        $currPostID = $_SESSION["photopostID"];
+        $currPostID = $photopostID;
         $mood = $_POST["mood"];
         $text = $_POST["text"];
 		$currUser = $_SESSION['userEmail'];

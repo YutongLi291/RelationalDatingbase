@@ -12,25 +12,23 @@
         $conn = OpenCon();
         // find postID of next text post to post
         
-        if (isset($_SESSION["textpostID"])) {
-            $_SESSION["textpostID"] += 1;
-			} else {
-            // this is only run if this is the first post the user is posting
+        
+            //Finf max postID
             $sql =
             "SELECT max(postID) as postID from textposts;";
 			
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
-                $_SESSION["textpostID"] = $row["postID"] + 1;
+                $textpostID = $row["postID"] + 1;
 				} else {
-                $_SESSION["textpostID"] = 1;
+                $textpostID = 1;
 			}
-		}
+		
 		$locID = $_POST["city"];
 		
             
 		
-        $currPostID = $_SESSION["textpostID"];
+        $currPostID = $textpostID;
         $mood = $_POST["mood"];
         $text = $_POST["text"];
 		$currUser = $_SESSION['userEmail'];
