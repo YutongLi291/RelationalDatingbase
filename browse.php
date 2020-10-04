@@ -10,7 +10,7 @@
 <body>
     <br><br><br><br><br><br>
     <h1>Find Your Match!</h1>
-    <p class="center">This select 'Swipe Right' to swipe right, 'Random' to swipe left, 'Block' to block the user. 
+    <p class="center">Select 'Swipe Right' to like the user, 'Random' to skip the user, 'Block' to block the user. 
         <br>
         The next user is randomly drawn and matches your gender preference and you have not yet swiped right on (in this session).
     </p>
