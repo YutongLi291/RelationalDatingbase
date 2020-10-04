@@ -145,7 +145,7 @@
 
 
 <form method="POST" onAction="photo_homefeed.php">
-	Post Image Links (Separate with semicolon(;), jpg or png links only): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
+	Post Image Links (Separate with semicolon(;). jpg or png links only!): <input type="text" name="text" size="50" placeholder="Paste link(s) here">
 	Current Mood: <input type="text" name="mood" size="20" placeholder="Happy">
 	<select id="city" name="city" >
 	<option value="" disabled selected>Select your city</option>
