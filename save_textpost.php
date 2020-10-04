@@ -9,11 +9,11 @@
         
             //Find max postID
             $sql =
-            "SELECT max(postID) as postID from textposts;";
+            "SELECT max(postID) as maxpostID from textposts;";
 			
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
-                $textpostID = $row["postID"] + 1;
+                $textpostID = $row["maxpostID"] + 1;
 				} else {
                 $textpostID = 1;
 			}
