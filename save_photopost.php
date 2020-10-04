@@ -22,11 +22,11 @@
         
             // Find min postID
             $sql =
-            "SELECT min(postID) as postID from pictureposts;";
+            "SELECT min(postID) as maxpostID from pictureposts;";
 			
             $result = $conn->query($sql);
             if ($row = $result->fetch_assoc()) {
-                $photopostID = $row["postID"] - 1;
+                $photopostID = $row["maxpostID"] - 1;
 				} else {
                 $photopostID = -1;
 			}
