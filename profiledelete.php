@@ -28,7 +28,7 @@ $conn = OpenCon();
 
 		<form id="deactivateform" method="post" action="profiledeletecheck.php">
 			<h1> Are you sure? </h1><br><br>
-			<label>Please put your password to proceed</label><br><br>
+			<label>Please enter your password to proceed</label><br><br>
 		    <input name="deactivatepassword" type="text" placeholder="Your password" required><br><br><br>
 		    <button type="submit" name="deactivatebutton" class="deactivatebutton"> Deactivate </button>
 		</form>
