@@ -1,4 +1,6 @@
 # Relational-Datingbase
 ITS HERE AND ITS AMAZING
 
-![Login Page](login page.png)
+<img src="login page.PNG"
+     alt="Login Page"
+     style="float: left; margin-right: 10px;" />
